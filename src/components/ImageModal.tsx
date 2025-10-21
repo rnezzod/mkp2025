@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 
 interface ImageModalProps {
@@ -8,7 +9,7 @@ interface ImageModalProps {
   alt: string;
   isOpen: boolean;
   onClose: () => void;
-  onImageClick: () => void;
+  tweetUrl: string;
 }
 
 export default function ImageModal({
@@ -16,45 +17,17 @@ export default function ImageModal({
   alt,
   isOpen,
   onClose,
-  onImageClick,
+  tweetUrl,
 }: ImageModalProps) {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-      document.body.classList.add('modal-open');
-      // 現在のスクロール位置を保存
-      const scrollY = window.scrollY;
-      document.body.style.top = `-${scrollY}px`;
     } else {
-      // スクロール位置を復元
-      const scrollY = document.body.style.top;
       document.body.style.overflow = 'unset';
-      document.body.style.touchAction = '';
-      document.body.style.top = '';
-      document.body.classList.remove('modal-open');
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-      }
-      // ビューポートをリセット
-      const viewport = document.querySelector('meta[name="viewport"]');
-      if (viewport) {
-        viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
-      }
-      // ズームをリセット（強制的に1に戻す）
-      if (window.visualViewport) {
-        const scale = window.visualViewport.scale;
-        if (scale !== 1) {
-          window.scrollTo(0, 0);
-        }
-      }
     }
 
     return () => {
       document.body.style.overflow = 'unset';
-      document.body.style.touchAction = '';
-      document.body.style.top = '';
-      document.body.classList.remove('modal-open');
     };
   }, [isOpen]);
 
@@ -76,20 +49,20 @@ export default function ImageModal({
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
-      style={{ touchAction: 'none' }}
+      style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
     >
       {/* 閉じるボタン */}
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 z-10 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-200 group"
+        className="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center transition-all duration-200 shadow-lg"
         aria-label="閉じる"
       >
         <svg
-          className="w-6 h-6 text-white group-hover:rotate-90 transition-transform duration-300"
+          className="w-6 h-6 text-white"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -97,39 +70,37 @@ export default function ImageModal({
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={2}
+            strokeWidth={3}
             d="M6 18L18 6M6 6l12 12"
           />
         </svg>
       </button>
 
-      {/* 説明テキスト */}
-      <div className="absolute top-6 left-6 z-10 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-        <p className="text-sm text-white font-medium">
-          画像をクリックでポストに移動
-        </p>
-      </div>
-
       {/* 画像 */}
       <div
-        className="relative max-w-[90vw] max-h-[90vh] cursor-pointer"
+        className="relative max-w-[95vw] max-h-[95vh] cursor-pointer group"
         onClick={(e) => {
           e.stopPropagation();
-          onImageClick();
+          window.open(tweetUrl, '_blank', 'noopener,noreferrer');
         }}
-        style={{ touchAction: 'none' }}
       >
         <Image
           src={imageUrl}
           alt={alt}
           width={1200}
           height={1200}
-          className="w-auto h-auto max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+          className="w-auto h-auto max-w-full max-h-[95vh] object-contain rounded-lg shadow-2xl"
           quality={100}
           priority
         />
+        {/* ホバー時のヒント */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 px-4 py-2 bg-teal-500 text-white text-sm font-bold rounded-full shadow-lg pointer-events-none">
+          クリックでポストを見る
+        </div>
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 }
 

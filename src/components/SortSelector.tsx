@@ -28,10 +28,10 @@ export default function SortSelector({
       {/* ソートボタン */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md transition-all duration-200 w-full justify-center sm:w-auto"
+        className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white border-2 border-orange-300 hover:bg-orange-50 hover:border-orange-400 shadow-md hover:shadow-lg transition-all duration-200 w-full justify-center sm:w-auto"
       >
         <svg
-          className="w-4.5 h-4.5 text-gray-600 dark:text-gray-400"
+          className="w-4.5 h-4.5 text-orange-600"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -43,7 +43,7 @@ export default function SortSelector({
             d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
           />
         </svg>
-        <span className="font-semibold text-sm text-gray-700 dark:text-gray-200">{currentLabel}</span>
+        <span className="font-bold text-sm text-orange-900">{currentLabel}</span>
       </button>
 
       {/* ドロップダウンメニュー */}
@@ -56,7 +56,7 @@ export default function SortSelector({
           />
 
           {/* メニュー */}
-          <div className="absolute top-full mt-3 right-0 w-full sm:w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-2xl z-20 overflow-hidden">
+          <div className="absolute top-full mt-3 right-0 w-full sm:w-52 bg-white border-2 border-orange-300 rounded-2xl shadow-2xl z-20 overflow-hidden">
             {sortOptions.map((option, index) => (
               <button
                 key={option.value}
@@ -65,11 +65,11 @@ export default function SortSelector({
                   setIsOpen(false);
                 }}
                 className={`w-full text-left px-5 py-3.5 transition-all duration-150 ${
-                  index !== sortOptions.length - 1 ? 'border-b border-gray-100 dark:border-gray-750' : ''
+                  index !== sortOptions.length - 1 ? 'border-b border-orange-200' : ''
                 } ${
                   selectedSort === option.value
-                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-bold'
-                    : 'text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-50 dark:hover:bg-gray-750'
+                    ? 'bg-orange-100 text-orange-900 font-bold'
+                    : 'text-gray-800 font-medium hover:bg-orange-50'
                 }`}
               >
                 <div className="flex items-center justify-between">

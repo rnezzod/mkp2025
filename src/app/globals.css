@@ -12,10 +12,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ダークモード無効化 */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
   }
 }
 
@@ -29,31 +30,8 @@ html,
 body {
   overflow-x: hidden;
   width: 100%;
-  position: relative;
 }
 
 body.no-zoom {
   touch-action: pan-x pan-y;
-}
-
-/* PWAでのズーム防止 */
-* {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* テキスト選択は許可 */
-p, span, h1, h2, h3, h4, h5, h6, a, button, input, textarea {
-  -webkit-user-select: text;
-  user-select: text;
-}
-
-/* モーダル時のズーム完全防止 */
-.modal-open {
-  overflow: hidden !important;
-  position: fixed !important;
-  width: 100% !important;
-  height: 100% !important;
-  touch-action: none !important;
 }
