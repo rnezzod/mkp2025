@@ -25,12 +25,18 @@ export default function ImageModal({
       viewport?.setAttribute('content', 'width=device-width, initial-scale=1.0');
     } else {
       document.body.style.overflow = 'unset';
-      viewport?.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
+      viewport?.setAttribute(
+        'content',
+        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+      );
     }
 
     return () => {
       document.body.style.overflow = 'unset';
-      viewport?.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
+      viewport?.setAttribute(
+        'content',
+        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
+      );
     };
   }, [isOpen]);
 
