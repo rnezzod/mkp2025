@@ -19,24 +19,17 @@ export default function ImageModal({
   onImageClick,
 }: ImageModalProps) {
   useEffect(() => {
-    const viewport = document.querySelector('meta[name="viewport"]');
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      viewport?.setAttribute('content', 'width=device-width, initial-scale=1.0');
+      document.body.classList.remove('no-zoom');
     } else {
       document.body.style.overflow = 'unset';
-      viewport?.setAttribute(
-        'content',
-        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-      );
+      document.body.classList.add('no-zoom');
     }
 
     return () => {
       document.body.style.overflow = 'unset';
-      viewport?.setAttribute(
-        'content',
-        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'
-      );
+      document.body.classList.add('no-zoom');
     };
   }, [isOpen]);
 
