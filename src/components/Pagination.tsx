@@ -61,7 +61,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-750 hover:border-gray-300 dark:hover:border-gray-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800 disabled:hover:border-gray-200 dark:disabled:hover:border-gray-700 transition-all duration-200"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border-2 border-orange-300 text-sm font-bold text-orange-900 hover:bg-orange-50 hover:border-orange-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-orange-300 transition-all duration-200 shadow-md"
       >
         <svg
           className="w-4 h-4"
@@ -86,7 +86,7 @@ export default function Pagination({
             return (
               <span
                 key={`ellipsis-${index}`}
-                className="px-3 py-2 text-gray-400 dark:text-gray-600"
+                className="px-3 py-2 text-orange-400"
               >
                 ...
               </span>
@@ -100,10 +100,10 @@ export default function Pagination({
             <button
               key={pageNum}
               onClick={() => onPageChange(pageNum)}
-              className={`min-w-[40px] h-10 px-3 rounded-full text-sm font-semibold transition-all duration-200 ${
+              className={`min-w-[40px] h-10 px-3 rounded-full text-sm font-bold transition-all duration-200 ${
                 isActive
-                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30'
-                  : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-750 hover:border-gray-300 dark:hover:border-gray-600'
+                  ? 'bg-red-500 text-white shadow-lg shadow-red-500/30'
+                  : 'bg-white border-2 border-orange-300 text-orange-900 hover:bg-orange-50 hover:border-orange-400 shadow-md'
               }`}
             >
               {pageNum}
@@ -116,7 +116,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-750 hover:border-gray-300 dark:hover:border-gray-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white dark:disabled:hover:bg-gray-800 disabled:hover:border-gray-200 dark:disabled:hover:border-gray-700 transition-all duration-200"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border-2 border-orange-300 text-sm font-bold text-orange-900 hover:bg-orange-50 hover:border-orange-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-orange-300 transition-all duration-200 shadow-md"
       >
         <span className="hidden sm:inline">次へ</span>
         <svg

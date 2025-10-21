@@ -62,19 +62,24 @@ export default function GalleryPost({ post }: GalleryPostProps) {
               {post.images.map((image, index) => (
                 <div
                   key={index}
-                  onClick={() => setSelectedImageUrl(image.url)}
-                  className="relative bg-gray-100 overflow-hidden aspect-[4/3] cursor-pointer group/image"
+                  onClick={() => {
+                    // PC（640px以上）でのみクリック拡大を有効化
+                    if (window.innerWidth >= 640) {
+                      setSelectedImageUrl(image.url);
+                    }
+                  }}
+                  className="relative bg-gray-100 overflow-hidden aspect-[3/4] sm:aspect-[4/3] sm:cursor-pointer group/image"
                 >
                   <Image
                     src={image.url}
                     alt={`${post.text.substring(0, 50)}... の画像 ${index + 1}`}
                     fill
-                    className="object-cover group-hover/image:scale-105 transition-transform duration-300"
+                    className="object-cover sm:group-hover/image:scale-105 transition-transform duration-300"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={index === 0}
                   />
-                  {/* 拡大アイコン */}
-                  <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                  {/* 拡大アイコン（PCのみ表示） */}
+                  <div className="hidden sm:flex absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 items-center justify-center">
                     <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
                       <svg
                         className="w-6 h-6 text-orange-900"

@@ -71,7 +71,7 @@ export default function CharacterFilter({
           />
 
           {/* メニュー */}
-          <div className="absolute top-full mt-3 right-0 w-80 bg-white border-2 border-teal-400 rounded-2xl shadow-2xl z-20 flex flex-col max-h-[calc(100vh-120px)] overflow-hidden sm:w-96">
+          <div className="absolute top-full mt-3 right-0 w-80 bg-white border-2 border-teal-400 rounded-2xl shadow-2xl z-20 flex flex-col max-h-[60vh] sm:max-h-[calc(100vh-120px)] overflow-hidden sm:w-96">
             {/* ヘッダー */}
             <div className="flex-shrink-0 bg-teal-50 border-b-2 border-teal-300 px-5 py-4 flex justify-between items-center">
               <span className="text-sm font-bold text-teal-900">
