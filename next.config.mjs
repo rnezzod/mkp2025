@@ -4,6 +4,7 @@ import withPWA from 'next-pwa';
 const nextConfig = {
   images: {
     domains: ['images.microcms-assets.io', 'pbs.twimg.com'],
+    unoptimized: true, // 画像最適化を無効化してタイムアウトを回避
   },
 };
 

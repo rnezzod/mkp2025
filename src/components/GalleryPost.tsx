@@ -58,46 +58,161 @@ export default function GalleryPost({ post }: GalleryPostProps) {
         {/* 画像グリッド */}
         {post.images && post.images.length > 0 && (
           <div className="mb-2 flex-shrink-0">
-            <div className="grid gap-1.5 rounded-xl overflow-hidden grid-cols-1">
+            {/* スマホ：縦1列 */}
+            <div className="sm:hidden grid gap-1.5 rounded-xl overflow-hidden grid-cols-1">
               {post.images.map((image, index) => (
                 <div
                   key={index}
-                  onClick={() => {
-                    // PC（640px以上）でのみクリック拡大を有効化
-                    if (window.innerWidth >= 640) {
-                      setSelectedImageUrl(image.url);
-                    }
-                  }}
-                  className="relative bg-gray-100 overflow-hidden aspect-[3/4] sm:aspect-[4/3] sm:cursor-pointer group/image"
+                  className="relative bg-gray-100 overflow-hidden aspect-[3/4]"
                 >
                   <Image
                     src={image.url}
                     alt={`${post.text.substring(0, 50)}... の画像 ${index + 1}`}
                     fill
-                    className="object-cover sm:group-hover/image:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    sizes="100vw"
                     priority={index === 0}
                   />
-                  {/* 拡大アイコン（PCのみ表示） */}
-                  <div className="hidden sm:flex absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 items-center justify-center">
+                </div>
+              ))}
+            </div>
+
+            {/* PC：X風レイアウト */}
+            <div className="hidden sm:block">
+              {/* 1枚 */}
+              {post.images.length === 1 && (
+                <div
+                  onClick={() => setSelectedImageUrl(post.images[0].url)}
+                  className="relative bg-gray-100 overflow-hidden aspect-[16/10] rounded-xl cursor-pointer group/image"
+                >
+                  <Image
+                    src={post.images[0].url}
+                    alt={`${post.text.substring(0, 50)}... の画像 1`}
+                    fill
+                    className="object-cover group-hover/image:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 1200px) 50vw, 33vw"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                     <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
-                      <svg
-                        className="w-6 h-6 text-orange-900"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"
-                        />
+                      <svg className="w-6 h-6 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
                       </svg>
                     </div>
                   </div>
                 </div>
-              ))}
+              )}
+
+              {/* 2枚 */}
+              {post.images.length === 2 && (
+                <div className="grid grid-cols-2 gap-1 rounded-xl overflow-hidden">
+                  {post.images.map((image, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setSelectedImageUrl(image.url)}
+                      className="relative bg-gray-100 overflow-hidden aspect-[4/5] cursor-pointer group/image"
+                    >
+                      <Image
+                        src={image.url}
+                        alt={`${post.text.substring(0, 50)}... の画像 ${index + 1}`}
+                        fill
+                        className="object-cover group-hover/image:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 1200px) 25vw, 16vw"
+                        priority={index === 0}
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
+                          <svg className="w-6 h-6 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* 3枚 */}
+              {post.images.length === 3 && (
+                <div className="grid grid-cols-2 gap-1 rounded-xl overflow-hidden">
+                  <div
+                    onClick={() => setSelectedImageUrl(post.images[0].url)}
+                    className="relative bg-gray-100 overflow-hidden aspect-[4/5] row-span-2 cursor-pointer group/image"
+                  >
+                    <Image
+                      src={post.images[0].url}
+                      alt={`${post.text.substring(0, 50)}... の画像 1`}
+                      fill
+                      className="object-cover group-hover/image:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 1200px) 25vw, 16vw"
+                      priority
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
+                        <svg className="w-6 h-6 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  {post.images.slice(1).map((image, index) => (
+                    <div
+                      key={index + 1}
+                      onClick={() => setSelectedImageUrl(image.url)}
+                      className="relative bg-gray-100 overflow-hidden aspect-[4/3] cursor-pointer group/image"
+                    >
+                      <Image
+                        src={image.url}
+                        alt={`${post.text.substring(0, 50)}... の画像 ${index + 2}`}
+                        fill
+                        className="object-cover group-hover/image:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 1200px) 25vw, 16vw"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
+                          <svg className="w-6 h-6 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* 4枚以上 */}
+              {post.images.length >= 4 && (
+                <div className="grid grid-cols-2 gap-1 rounded-xl overflow-hidden">
+                  {post.images.slice(0, 4).map((image, index) => (
+                    <div
+                      key={index}
+                      onClick={() => setSelectedImageUrl(image.url)}
+                      className="relative bg-gray-100 overflow-hidden aspect-square cursor-pointer group/image"
+                    >
+                      <Image
+                        src={image.url}
+                        alt={`${post.text.substring(0, 50)}... の画像 ${index + 1}`}
+                        fill
+                        className="object-cover group-hover/image:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 1200px) 25vw, 16vw"
+                        priority={index === 0}
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
+                          <svg className="w-6 h-6 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                          </svg>
+                        </div>
+                      </div>
+                      {index === 3 && post.images.length > 4 && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                          <span className="text-white text-2xl font-bold">+{post.images.length - 4}</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         )}

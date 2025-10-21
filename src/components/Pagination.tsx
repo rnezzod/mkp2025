@@ -56,12 +56,12 @@ export default function Pagination({
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-12">
+    <div className="flex items-center justify-center gap-1 sm:gap-2 mt-12 px-2">
       {/* 前へボタン */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border-2 border-orange-300 text-sm font-bold text-orange-900 hover:bg-orange-50 hover:border-orange-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-orange-300 transition-all duration-200 shadow-md"
+        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2.5 rounded-full bg-white border-2 border-orange-300 text-sm font-bold text-orange-900 hover:bg-orange-50 hover:border-orange-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-orange-300 transition-all duration-200 shadow-md flex-shrink-0"
       >
         <svg
           className="w-4 h-4"
@@ -80,7 +80,7 @@ export default function Pagination({
       </button>
 
       {/* ページ番号 */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide flex-shrink">
         {pageNumbers.map((page, index) => {
           if (page === '...') {
             return (
@@ -116,7 +116,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border-2 border-orange-300 text-sm font-bold text-orange-900 hover:bg-orange-50 hover:border-orange-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-orange-300 transition-all duration-200 shadow-md"
+        className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2.5 rounded-full bg-white border-2 border-orange-300 text-sm font-bold text-orange-900 hover:bg-orange-50 hover:border-orange-400 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-orange-300 transition-all duration-200 shadow-md flex-shrink-0"
       >
         <span className="hidden sm:inline">次へ</span>
         <svg

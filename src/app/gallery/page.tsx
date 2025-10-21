@@ -8,7 +8,7 @@ import SortSelector, { SortOption } from '@/components/SortSelector';
 import Pagination from '@/components/Pagination';
 import Link from 'next/link';
 
-const POSTS_PER_PAGE = 20;
+const POSTS_PER_PAGE = 18;
 
 export default function GalleryPage() {
   const [posts, setPosts] = useState<GalleryPostType[]>([]);
@@ -19,6 +19,8 @@ export default function GalleryPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -41,6 +43,32 @@ export default function GalleryPage() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // 一番下に到達したら表示
+      if (currentScrollY + windowHeight >= documentHeight - 10) {
+        setHeaderVisible(true);
+      }
+      // 下にスクロール
+      else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setHeaderVisible(false);
+      }
+      // 上にスクロール
+      else if (currentScrollY < lastScrollY) {
+        setHeaderVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   useEffect(() => {
     let filtered = [...allPosts];
@@ -125,7 +153,9 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-100 via-amber-100 to-red-50">
       {/* ヘッダー */}
-      <header className="sticky top-0 z-30 bg-orange-100/95 backdrop-blur-xl border-b border-orange-300/50 shadow-md">
+      <header className={`fixed top-0 left-0 right-0 z-30 bg-orange-100/95 backdrop-blur-xl border-b border-orange-300/50 shadow-md transition-transform duration-300 ${
+        headerVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between h-auto sm:h-20 py-4 sm:py-0">
             <div className="flex items-center gap-3 mb-4 sm:mb-0">
@@ -141,6 +171,12 @@ export default function GalleryPage() {
               </Link>
             </div>
             <div className="flex items-center flex-wrap justify-center gap-3">
+              <Link
+                href="/"
+                className="px-4 py-2 rounded-full text-xs font-bold text-orange-900 bg-white border-2 border-orange-300 hover:bg-orange-50 hover:border-orange-400 shadow-md hover:shadow-lg transition-all duration-200"
+              >
+                ← ホーム
+              </Link>
               <SortSelector
                 selectedSort={sortOption}
                 onSelectSort={handleSelectSort}
@@ -156,7 +192,7 @@ export default function GalleryPage() {
       </header>
 
       {/* メインコンテンツ */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-32">
         {/* 統計情報 */}
         <div className="mb-8 flex flex-wrap items-center gap-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 rounded-full bg-white/90 border border-orange-300 shadow-md">
