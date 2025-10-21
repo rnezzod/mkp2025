@@ -71,16 +71,16 @@ export default function CharacterFilter({
           />
 
           {/* メニュー */}
-          <div className="absolute top-full mt-3 right-0 w-80 bg-white border-2 border-teal-400 rounded-2xl shadow-2xl z-20 flex flex-col max-h-[60vh] sm:max-h-[calc(100vh-120px)] overflow-hidden sm:w-96">
+          <div className="fixed top-36 md:top-24 left-1/2 -translate-x-1/2 md:left-auto md:right-4 md:translate-x-0 w-[90vw] max-w-md md:w-96 bg-white border-2 border-teal-400 rounded-2xl shadow-2xl z-20 flex flex-col max-h-[calc(100vh-10rem)] md:max-h-[calc(100vh-7rem)] overflow-hidden">
             {/* ヘッダー */}
-            <div className="flex-shrink-0 bg-teal-50 border-b-2 border-teal-300 px-5 py-4 flex justify-between items-center">
-              <span className="text-sm font-bold text-teal-900">
+            <div className="flex-shrink-0 bg-teal-50 border-b-2 border-teal-300 px-4 md:px-5 py-3 md:py-4 flex justify-between items-center gap-3">
+              <span className="text-sm font-bold text-teal-900 flex-1 min-w-0">
                 キャラクター選択
               </span>
               {selectedCharacters.length > 0 && (
                 <button
                   onClick={clearAll}
-                  className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors"
+                  className="text-xs font-bold text-red-600 hover:text-red-700 transition-colors flex-shrink-0"
                 >
                   クリア
                 </button>
@@ -92,7 +92,7 @@ export default function CharacterFilter({
               {characters.map((character) => (
                 <label
                   key={character}
-                  className="flex items-center px-5 py-3.5 hover:bg-teal-50 cursor-pointer transition-all duration-150 group"
+                  className="flex items-center px-4 md:px-5 py-3 md:py-3.5 hover:bg-teal-50 cursor-pointer transition-all duration-150 group"
                 >
                   <input
                     type="checkbox"
@@ -100,7 +100,7 @@ export default function CharacterFilter({
                     onChange={() => toggleCharacter(character)}
                     className="w-4.5 h-4.5 text-teal-600 bg-white border-2 border-teal-400 rounded-md focus:ring-2 focus:ring-teal-500 transition-all cursor-pointer flex-shrink-0"
                   />
-                  <span className="ml-3.5 text-sm font-medium text-gray-800 group-hover:text-teal-900 transition-colors break-words">
+                  <span className="ml-3 md:ml-3.5 text-sm font-medium text-gray-800 group-hover:text-teal-900 transition-colors break-words">
                     {character}
                   </span>
                 </label>
@@ -109,7 +109,7 @@ export default function CharacterFilter({
 
             {/* フッター - 選択数表示 */}
             {selectedCharacters.length > 0 && (
-              <div className="flex-shrink-0 bg-teal-50 border-t-2 border-teal-300 px-5 py-3">
+              <div className="flex-shrink-0 bg-teal-50 border-t-2 border-teal-300 px-4 md:px-5 py-3">
                 <p className="text-xs font-bold text-teal-800">
                   {selectedCharacters.length}件のキャラクターを選択中
                 </p>
