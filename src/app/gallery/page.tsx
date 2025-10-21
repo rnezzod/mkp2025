@@ -192,7 +192,7 @@ export default function GalleryPage() {
       </header>
 
       {/* メインコンテンツ */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-44 md:pt-32">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-56 md:pt-32">
         {/* 統計情報 */}
         <div className="mb-8 flex flex-wrap items-center gap-4">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 rounded-full bg-white/90 border border-orange-300 shadow-md">
