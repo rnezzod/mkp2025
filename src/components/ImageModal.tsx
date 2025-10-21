@@ -21,15 +21,12 @@ export default function ImageModal({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      document.body.classList.remove('no-zoom');
     } else {
       document.body.style.overflow = 'unset';
-      document.body.classList.add('no-zoom');
     }
 
     return () => {
       document.body.style.overflow = 'unset';
-      document.body.classList.add('no-zoom');
     };
   }, [isOpen]);
 
