@@ -28,7 +28,7 @@ export default function SortSelector({
       {/* ソートボタン */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md transition-all duration-200"
+        className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750 hover:border-gray-300 dark:hover:border-gray-600 hover:shadow-md transition-all duration-200 w-full justify-center sm:w-auto"
       >
         <svg
           className="w-4.5 h-4.5 text-gray-600 dark:text-gray-400"
@@ -56,7 +56,7 @@ export default function SortSelector({
           />
 
           {/* メニュー */}
-          <div className="absolute top-full mt-3 right-0 w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-2xl z-20 overflow-hidden">
+          <div className="absolute top-full mt-3 right-0 w-full sm:w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-3xl shadow-2xl z-20 overflow-hidden">
             {sortOptions.map((option, index) => (
               <button
                 key={option.value}

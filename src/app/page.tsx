@@ -126,8 +126,8 @@ export default function Home() {
       {/* ヘッダー */}
       <header className="sticky top-0 z-30 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-800/50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-between h-auto sm:h-20 py-4 sm:py-0">
+            <div className="flex items-center gap-3 mb-4 sm:mb-0">
               <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -137,7 +137,7 @@ export default function Home() {
                 ギャラリー
               </h1>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center flex-wrap justify-center gap-3">
               <SortSelector
                 selectedSort={sortOption}
                 onSelectSort={handleSelectSort}
@@ -156,7 +156,7 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* 統計情報 */}
         <div className="mb-8 flex flex-wrap items-center gap-4">
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
               <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
@@ -165,7 +165,7 @@ export default function Home() {
             </div>
             {selectedCharacters.length > 0 && (
               <>
-                <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
+                <div className="w-full sm:w-px h-px sm:h-4 bg-gray-300 dark:bg-gray-600"></div>
                 <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
                   {selectedCharacters.join('、')}
                 </span>
@@ -203,7 +203,7 @@ export default function Home() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {currentPosts.map((post) => (
                 <GalleryPost key={post.id} post={post} />
               ))}
