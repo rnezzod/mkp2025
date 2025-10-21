@@ -19,14 +19,18 @@ export default function ImageModal({
   onImageClick,
 }: ImageModalProps) {
   useEffect(() => {
+    const viewport = document.querySelector('meta[name="viewport"]');
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      viewport?.setAttribute('content', 'width=device-width, initial-scale=1.0');
     } else {
       document.body.style.overflow = 'unset';
+      viewport?.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
     }
 
     return () => {
       document.body.style.overflow = 'unset';
+      viewport?.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
     };
   }, [isOpen]);
 
