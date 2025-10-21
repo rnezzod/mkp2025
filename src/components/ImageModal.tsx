@@ -21,12 +21,40 @@ export default function ImageModal({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+      document.body.classList.add('modal-open');
+      // 現在のスクロール位置を保存
+      const scrollY = window.scrollY;
+      document.body.style.top = `-${scrollY}px`;
     } else {
+      // スクロール位置を復元
+      const scrollY = document.body.style.top;
       document.body.style.overflow = 'unset';
+      document.body.style.touchAction = '';
+      document.body.style.top = '';
+      document.body.classList.remove('modal-open');
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+      // ビューポートをリセット
+      const viewport = document.querySelector('meta[name="viewport"]');
+      if (viewport) {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+      }
+      // ズームをリセット（強制的に1に戻す）
+      if (window.visualViewport) {
+        const scale = window.visualViewport.scale;
+        if (scale !== 1) {
+          window.scrollTo(0, 0);
+        }
+      }
     }
 
     return () => {
       document.body.style.overflow = 'unset';
+      document.body.style.touchAction = '';
+      document.body.style.top = '';
+      document.body.classList.remove('modal-open');
     };
   }, [isOpen]);
 
@@ -52,6 +80,7 @@ export default function ImageModal({
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm animate-in fade-in duration-200"
       onClick={onClose}
+      style={{ touchAction: 'none' }}
     >
       {/* 閉じるボタン */}
       <button
@@ -88,6 +117,7 @@ export default function ImageModal({
           e.stopPropagation();
           onImageClick();
         }}
+        style={{ touchAction: 'none' }}
       >
         <Image
           src={imageUrl}
