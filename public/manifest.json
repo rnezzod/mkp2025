@@ -1,16 +1,17 @@
 {
-  "name": "ギャラリー",
-  "short_name": "ギャラリー",
-  "description": "microCMSを使った画像ギャラリー",
+  "name": "TASTY VIVID TUNE",
+  "short_name": "TVT",
+  "description": "Magic Kingdom Project - TASTY VIVID TUNE",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "background_color": "#000000",
+  "theme_color": "#FF9A33",
   "icons": [
     {
-      "src": "/next.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
+      "src": "/background_logo.PNG",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

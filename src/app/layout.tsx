@@ -13,9 +13,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ギャラリー",
-  description: "microCMSを使った画像ギャラリー",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  title: "TASTY VIVID TUNE",
+  description: "Magic Kingdom Project - TASTY VIVID TUNE",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/background_logo.PNG",
+    apple: "/background_logo.PNG",
+  },
+  openGraph: {
+    title: "TASTY VIVID TUNE",
+    description: "Magic Kingdom Project - TASTY VIVID TUNE",
+    images: [
+      {
+        url: "/background_logo.PNG",
+        width: 1200,
+        height: 630,
+        alt: "TASTY VIVID TUNE",
+      },
+    ],
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TASTY VIVID TUNE",
+    description: "Magic Kingdom Project - TASTY VIVID TUNE",
+    images: ["/background_logo.PNG"],
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +55,7 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
         />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#FF9A33" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased no-zoom`}

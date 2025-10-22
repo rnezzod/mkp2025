@@ -41,6 +41,10 @@ export default function Home() {
   const [storyPlaying, setStoryPlaying] = useState(true);
   const storyVideoRef = useRef<HTMLVideoElement>(null);
 
+  const [headerVisible, setHeaderVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? movies.length - 1 : prev - 1));
   };
@@ -159,10 +163,64 @@ export default function Home() {
     }
   }, [storyIndex]);
 
+  // 初期ローディング（最低1秒間表示）
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // ヘッダーの表示/非表示制御
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // 一番下に到達したら表示
+      if (currentScrollY + windowHeight >= documentHeight - 10) {
+        setHeaderVisible(true);
+      }
+      // 下にスクロール
+      else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setHeaderVisible(false);
+      }
+      // 上にスクロール
+      else if (currentScrollY < lastScrollY) {
+        setHeaderVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+        <div className="animate-pulse">
+          <img
+            src="/white_logo.png"
+            alt="Loading..."
+            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#FFF5ED] via-[#FFFAF7] to-[#FFF0F0]">
       {/* ヘッダー */}
-      <header className="border-b-2 border-[#FF9A33]/30 bg-white/95 backdrop-blur-xl shadow-md">
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 border-b-2 border-[#FF9A33]/30 bg-white/95 backdrop-blur-xl shadow-md transition-transform duration-300 ${
+          headerVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black" style={{ color: '#FF9A33' }}>
@@ -182,18 +240,64 @@ export default function Home() {
       </header>
 
       {/* メインコンテンツ */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-32">
         {/* タイトル */}
-        <div className="text-center mb-16">
-          <h2 className="text-6xl sm:text-7xl md:text-8xl font-black mb-12">
+        <div className="text-center mt-12 mb-24">
+          <h2 className="text-6xl sm:text-7xl md:text-8xl font-black mb-8">
             <span style={{ color: '#FF9A33' }}>TASTY</span><br/>
             <span style={{ color: '#45C6B9' }}>VIVID</span><br/>
             <span style={{ color: '#FD4B5D' }}>TUNE</span>
           </h2>
         </div>
 
+        {/* タブナビゲーション */}
+        <div className="flex justify-center mb-24">
+          <div className="flex gap-6 sm:gap-8 md:gap-12 border-b-2 border-gray-200 flex-wrap justify-center">
+            <button
+              onClick={() => document.getElementById('characters')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="pb-3 text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              style={{ 
+                color: '#FF9A33',
+                borderBottom: '3px solid #FF9A33'
+              }}
+            >
+              CHARACTERS
+            </button>
+            <button
+              onClick={() => document.getElementById('stories')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="pb-3 text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              style={{ 
+                color: '#FD4B5D',
+                borderBottom: '3px solid #FD4B5D'
+              }}
+            >
+              STORIES
+            </button>
+            <button
+              onClick={() => document.getElementById('information')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="pb-3 text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              style={{ 
+                color: '#45C6B9',
+                borderBottom: '3px solid #45C6B9'
+              }}
+            >
+              INFORMATION
+            </button>
+            <button
+              onClick={() => document.getElementById('goods')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              className="pb-3 text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              style={{ 
+                color: '#9B59B6',
+                borderBottom: '3px solid #9B59B6'
+              }}
+            >
+              GOODS
+            </button>
+          </div>
+        </div>
+
         {/* キャラクター見出し */}
-        <div className="text-center mb-12">
+        <div id="characters" className="text-center mb-12 scroll-mt-32">
           <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#FF9A33' }}>
             CHARACTERS
           </h3>
@@ -315,7 +419,9 @@ export default function Home() {
               {/* 左ボタン */}
               <button
                 onClick={goToPrevious}
-                className="absolute left-0 top-0 bottom-0 w-10 sm:w-12 flex items-center justify-center transition-all duration-200 hover:brightness-110"
+                className={`absolute left-0 top-0 bottom-0 flex items-center justify-center transition-all duration-200 hover:brightness-110 ${
+                  movies[currentIndex].id === 'floats' ? 'w-8 sm:w-10' : 'w-10 sm:w-12'
+                }`}
                 style={{ background: '#FF9A33' }}
                 aria-label="前の動画"
               >
@@ -335,7 +441,9 @@ export default function Home() {
               </button>
 
               {/* テキスト部分 */}
-              <div className="flex-1 px-12 sm:px-14">
+              <div className={`flex-1 ${
+                movies[currentIndex].id === 'floats' ? 'px-10 sm:px-12' : 'px-12 sm:px-14'
+              }`}>
                 <h3 className="text-sm sm:text-base md:text-lg font-black mb-0.5 leading-tight whitespace-pre-line" style={{ color: '#45C6B9' }}>
                   {movies[currentIndex].title}
                 </h3>
@@ -347,7 +455,9 @@ export default function Home() {
               {/* 右ボタン */}
               <button
                 onClick={goToNext}
-                className="absolute right-0 top-0 bottom-0 w-10 sm:w-12 flex items-center justify-center transition-all duration-200 hover:brightness-110"
+                className={`absolute right-0 top-0 bottom-0 flex items-center justify-center transition-all duration-200 hover:brightness-110 ${
+                  movies[currentIndex].id === 'floats' ? 'w-8 sm:w-10' : 'w-10 sm:w-12'
+                }`}
                 style={{ background: '#FD4B5D' }}
                 aria-label="次の動画"
               >
@@ -389,7 +499,7 @@ export default function Home() {
         </div>
 
         {/* ストーリー見出し */}
-        <div className="text-center mb-12 mt-24">
+        <div id="stories" className="text-center mb-12 mt-24 scroll-mt-32">
           <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#FD4B5D' }}>
             STORIES
           </h3>
@@ -562,6 +672,34 @@ export default function Home() {
               ))}
             </div>
           )}
+        </div>
+
+        {/* INFORMATION見出し */}
+        <div id="information" className="text-center mb-12 mt-24 scroll-mt-32">
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#45C6B9' }}>
+            INFORMATION
+          </h3>
+        </div>
+
+        {/* INFORMATIONコンテンツ（準備中） */}
+        <div className="max-w-3xl mx-auto mb-16">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 shadow-2xl border-2 border-[#45C6B9]/50">
+            <p className="text-center text-gray-500 text-lg">Coming Soon...</p>
+          </div>
+        </div>
+
+        {/* GOODS見出し */}
+        <div id="goods" className="text-center mb-12 mt-24 scroll-mt-32">
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#9B59B6' }}>
+            GOODS
+          </h3>
+        </div>
+
+        {/* GOODSコンテンツ（準備中） */}
+        <div className="max-w-3xl mx-auto mb-16">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 shadow-2xl border-2 border-[#9B59B6]/50">
+            <p className="text-center text-gray-500 text-lg">Coming Soon...</p>
+          </div>
         </div>
       </main>
 

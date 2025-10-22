@@ -21,6 +21,16 @@ export default function GalleryPage() {
   const [error, setError] = useState<string | null>(null);
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  // 初期ローディング（最低1秒間表示）
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -121,12 +131,15 @@ export default function GalleryPage() {
   const endIndex = startIndex + POSTS_PER_PAGE;
   const currentPosts = posts.slice(startIndex, endIndex);
 
-  if (loading) {
+  if (isInitialLoading || loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-teal-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-orange-200 border-t-red-500"></div>
-          <p className="mt-6 text-base font-medium text-orange-900">読み込み中...</p>
+      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+        <div className="animate-pulse">
+          <img
+            src="/white_logo.png"
+            alt="Loading..."
+            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+          />
         </div>
       </div>
     );
