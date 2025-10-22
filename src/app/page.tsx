@@ -4,13 +4,20 @@ import { useState } from 'react';
 import Link from 'next/link';
 import movieData from '@/../../public/movie_urls.json';
 
+type MovieData = {
+  title: string;
+  name: string;
+  url: string;
+};
+
 export default function Home() {
   const movies = Object.entries(movieData).map(([key, value]) => ({
     id: key,
-    ...value,
+    ...(value as MovieData),
   }));
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? movies.length - 1 : prev - 1));
@@ -18,6 +25,10 @@ export default function Home() {
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev === movies.length - 1 ? 0 : prev + 1));
+  };
+
+  const toggleMute = () => {
+    setIsMuted((prev) => !prev);
   };
 
   return (
@@ -62,72 +73,123 @@ export default function Home() {
 
         {/* 動画カルーセル */}
         <div className="relative max-w-3xl mx-auto mb-16">
+          {/* 音量ボタン */}
+          <button
+            onClick={toggleMute}
+            className="absolute -top-8 left-2 px-2 py-1 rounded-md flex items-center gap-1 shadow-md transition-all duration-200 hover:scale-105 z-10"
+            style={{ background: isMuted ? '#999' : '#45C6B9' }}
+            aria-label={isMuted ? '音声をONにする' : '音声をOFFにする'}
+          >
+            {isMuted ? (
+              <svg
+                className="w-4 h-4 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-4 h-4 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                />
+              </svg>
+            )}
+            <span className="text-xs font-bold text-white">
+              {isMuted ? 'OFF' : 'ON'}
+            </span>
+          </button>
+
           {/* 動画カード */}
           <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border-2 border-[#45C6B9]/50">
             <video
               key={movies[currentIndex].id}
               controls
               autoPlay
-              muted
-              loop
+              muted={isMuted}
+              playsInline
+              onEnded={goToNext}
               className="w-full aspect-video bg-black"
               preload="metadata"
             >
               <source src={movies[currentIndex].url} type="video/mp4" />
               お使いのブラウザは動画タグをサポートしていません。
             </video>
-            <div className="p-6 text-center">
-              <h3 className="text-2xl font-black mb-2" style={{ color: '#45C6B9' }}>
-                {movies[currentIndex].name}
-              </h3>
-              <p className="text-sm font-medium" style={{ color: '#FF9A33' }}>
-                {currentIndex + 1} / {movies.length}
-              </p>
+            <div className="p-4 text-center relative flex items-center justify-center">
+              {/* 左ボタン */}
+              <button
+                onClick={goToPrevious}
+                className="absolute left-0 top-0 bottom-0 w-10 sm:w-12 flex items-center justify-center transition-all duration-200 hover:brightness-110"
+                style={{ background: '#FF9A33' }}
+                aria-label="前の動画"
+              >
+                <svg
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={3}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+
+              {/* テキスト部分 */}
+              <div className="flex-1 px-12 sm:px-14">
+                <h3 className="text-base sm:text-lg font-black mb-0.5 leading-tight whitespace-pre-line" style={{ color: '#45C6B9' }}>
+                  {movies[currentIndex].title}
+                </h3>
+                <p className="text-xs sm:text-sm font-semibold leading-tight whitespace-pre-line" style={{ color: '#666' }}>
+                  {movies[currentIndex].name}
+                </p>
+              </div>
+
+              {/* 右ボタン */}
+              <button
+                onClick={goToNext}
+                className="absolute right-0 top-0 bottom-0 w-10 sm:w-12 flex items-center justify-center transition-all duration-200 hover:brightness-110"
+                style={{ background: '#FD4B5D' }}
+                aria-label="次の動画"
+              >
+                <svg
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={3}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
             </div>
-
-            {/* 左矢印 */}
-            <button
-              onClick={goToPrevious}
-              className="absolute left-4 bottom-4 z-10 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-200 hover:scale-110"
-              style={{ background: '#FF9A33' }}
-              aria-label="前の動画"
-            >
-              <svg
-                className="w-6 h-6 sm:w-7 sm:h-7 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={3}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-
-            {/* 右矢印 */}
-            <button
-              onClick={goToNext}
-              className="absolute right-4 bottom-4 z-10 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-200 hover:scale-110"
-              style={{ background: '#FD4B5D' }}
-              aria-label="次の動画"
-            >
-              <svg
-                className="w-6 h-6 sm:w-7 sm:h-7 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={3}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
           </div>
 
           {/* インジケーター（ドット） */}
