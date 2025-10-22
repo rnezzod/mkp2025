@@ -226,15 +226,13 @@ export default function Home() {
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black" style={{ color: '#FF9A33' }}>
               TASTY VIVID TUNE
             </h1>
-            <Link
-              href="/gallery"
-              className="px-6 py-2.5 rounded-full text-sm font-bold text-white shadow-md hover:shadow-lg transition-all duration-200"
-              style={{ background: '#45C6B9' }}
-              onMouseEnter={(e) => e.currentTarget.style.background = '#3AB3A6'}
-              onMouseLeave={(e) => e.currentTarget.style.background = '#45C6B9'}
+            <button
+              disabled
+              className="px-4 py-2 rounded-full text-xs font-bold text-white shadow-sm cursor-not-allowed opacity-60"
+              style={{ background: '#999' }}
             >
-              ギャラリーへ
-            </Link>
+              Coming Soon
+            </button>
           </div>
         </div>
       </header>
@@ -242,7 +240,7 @@ export default function Home() {
       {/* メインコンテンツ */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-32">
         {/* タイトル */}
-        <div className="text-center mt-12 mb-24">
+        <div className="text-center mb-12">
           <h2 className="text-6xl sm:text-7xl md:text-8xl font-black mb-8">
             <span style={{ color: '#FF9A33' }}>TASTY</span><br/>
             <span style={{ color: '#45C6B9' }}>VIVID</span><br/>
@@ -251,7 +249,7 @@ export default function Home() {
         </div>
 
         {/* タブナビゲーション */}
-        <div className="flex justify-center mb-24">
+        <div className="flex justify-center mb-12">
           <div className="flex gap-3 sm:gap-6 md:gap-12 border-b-2 border-gray-200 justify-center">
             <button
               onClick={() => document.getElementById('characters')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
