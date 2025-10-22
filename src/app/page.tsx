@@ -252,10 +252,10 @@ export default function Home() {
 
         {/* タブナビゲーション */}
         <div className="flex justify-center mb-24">
-          <div className="flex gap-6 sm:gap-8 md:gap-12 border-b-2 border-gray-200 flex-wrap justify-center">
+          <div className="flex gap-3 sm:gap-6 md:gap-12 border-b-2 border-gray-200 justify-center">
             <button
               onClick={() => document.getElementById('characters')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-3 text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              className="pb-3 text-xs sm:text-sm md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
               style={{ 
                 color: '#FF9A33',
                 borderBottom: '3px solid #FF9A33'
@@ -265,17 +265,17 @@ export default function Home() {
             </button>
             <button
               onClick={() => document.getElementById('stories')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-3 text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              className="pb-3 text-xs sm:text-sm md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
               style={{ 
                 color: '#FD4B5D',
                 borderBottom: '3px solid #FD4B5D'
               }}
             >
-              STORIES
+              STORY
             </button>
             <button
               onClick={() => document.getElementById('information')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-3 text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              className="pb-3 text-xs sm:text-sm md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
               style={{ 
                 color: '#45C6B9',
                 borderBottom: '3px solid #45C6B9'
@@ -285,7 +285,7 @@ export default function Home() {
             </button>
             <button
               onClick={() => document.getElementById('goods')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-3 text-sm sm:text-base md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              className="pb-3 text-xs sm:text-sm md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
               style={{ 
                 color: '#9B59B6',
                 borderBottom: '3px solid #9B59B6'
@@ -501,7 +501,7 @@ export default function Home() {
         {/* ストーリー見出し */}
         <div id="stories" className="text-center mb-12 mt-24 scroll-mt-32">
           <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#FD4B5D' }}>
-            STORIES
+            STORY
           </h3>
         </div>
 
