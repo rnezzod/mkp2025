@@ -1,0 +1,36 @@
+{
+    "abstruct": {
+        "title": "MagicKingdomProjectとは？",
+        "description": "MagicKingdomProjectは毎年秋の芸術祭に向けてオリジナルのパレードを制作している武蔵野美術大学公認サークルです。"
+    },
+    "departments": {
+        "dancer": {
+            "name": "ダンサー班",
+            "post_url": "https://x.com/mkp_mau/status/1907401643181924537"
+        },
+        "costume": {
+            "name": "コスチューム班",
+            "post_url": "https://x.com/mkp_mau/status/1907402044685824075"
+        },
+        "makeup": {
+            "name": "メイク班",
+            "post_url": "https://x.com/mkp_mau/status/1907402614847033728"
+        },
+        "float": {
+            "name": "フロート班",
+            "post_url": "https://x.com/mkp_mau/status/1907403088643989910"
+        },
+        "promotion": {
+            "name": "広報班",
+            "post_url": "https://x.com/mkp_mau/status/1907403465954897934"
+        },
+        "sound": {
+            "name": "音源班",
+            "post_url": "https://x.com/mkp_mau/status/1907405017088397520"
+        },
+        "display": {
+            "name": "展示班",
+            "post_url": "https://x.com/mkp_mau/status/1907405694669824044"
+        }
+    }
+}
