@@ -164,21 +164,27 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-100 via-amber-100 to-red-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-100 via-amber-100 to-red-50 relative">
+      {/* 背景装飾 */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 right-10 w-72 h-72 bg-[#FF9A33]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-[#45C6B9]/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 right-1/4 w-80 h-80 bg-[#FD4B5D]/5 rounded-full blur-3xl"></div>
+      </div>
       {/* ヘッダー */}
-      <header className={`fixed top-0 left-0 right-0 z-30 bg-orange-100/95 backdrop-blur-xl border-b border-orange-300/50 shadow-md transition-transform duration-300 ${
+      <header className={`fixed top-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-xl border-b-2 border-orange-300/50 shadow-lg transition-transform duration-300 ${
         headerVisible ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between h-auto sm:h-20 py-4 sm:py-0">
             <div className="flex items-center gap-3 mb-4 sm:mb-0">
-              <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                <div className="w-10 h-10 rounded-xl bg-red-500 flex items-center justify-center shadow-lg">
+              <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-all duration-300 hover:scale-105">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg" style={{ background: 'linear-gradient(135deg, #FD4B5D 0%, #FF3545 100%)' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-black text-orange-900">
+                <h1 className="text-2xl sm:text-3xl font-black tracking-tight" style={{ color: '#FF9A33' }}>
                   ギャラリー
                 </h1>
               </Link>
@@ -186,7 +192,8 @@ export default function GalleryPage() {
             <div className="flex items-center flex-wrap justify-center gap-3">
               <Link
                 href="/"
-                className="px-4 py-2 rounded-full text-xs font-bold text-orange-900 bg-white border-2 border-orange-300 hover:bg-orange-50 hover:border-orange-400 shadow-md hover:shadow-lg transition-all duration-200"
+                className="px-5 py-2.5 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #FF9A33 0%, #FF8820 100%)' }}
               >
                 ← ホーム
               </Link>
@@ -205,12 +212,12 @@ export default function GalleryPage() {
       </header>
 
       {/* メインコンテンツ */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-56 md:pt-32">
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pt-56 md:pt-32">
         {/* 統計情報 */}
         <div className="mb-8 flex flex-wrap items-center gap-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 rounded-full bg-white/90 border border-orange-300 shadow-md">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 px-6 py-3 rounded-full bg-white/95 backdrop-blur-md border-2 border-orange-300/50 shadow-lg">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></div>
+              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#45C6B9' }}></div>
               <span className="text-sm font-semibold text-orange-900">
                 {posts.length}件のポスト
               </span>
@@ -226,8 +233,8 @@ export default function GalleryPage() {
           </div>
           
           {totalPages > 1 && (
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 border border-teal-300 shadow-md">
-              <span className="text-xs font-semibold text-teal-800">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border-2 border-[#45C6B9]/50 shadow-lg">
+              <span className="text-xs font-semibold" style={{ color: '#45C6B9' }}>
                 ページ {currentPage} / {totalPages}
               </span>
             </div>

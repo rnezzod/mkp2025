@@ -29,14 +29,14 @@ export default function GalleryPost({ post }: GalleryPostProps) {
 
   return (
     <>
-    <article className="group bg-gradient-to-br from-white to-amber-50 border-2 border-orange-300 rounded-2xl overflow-hidden hover:shadow-2xl hover:border-orange-400 hover:-translate-y-1 transition-all duration-300 flex flex-col shadow-lg">
-      <div className="p-3 flex flex-col">
+    <article className="group bg-gradient-to-br from-white to-amber-50/50 border-2 border-orange-300/50 rounded-3xl overflow-hidden hover:shadow-2xl hover:border-orange-400 hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 flex flex-col shadow-lg backdrop-blur-sm">
+      <div className="p-4 flex flex-col">
         {/* ヘッダー部分 */}
         <div className="flex justify-between items-start mb-2">
           <time className="text-xs text-orange-700 font-medium">
             {formatDate(post.created_at)}
           </time>
-          <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-red-500 text-white shadow-md transition-colors">
+          <div className="flex items-center gap-1 px-3 py-1.5 rounded-full text-white shadow-md transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, #FD4B5D 0%, #FF3545 100%)' }}>
             <svg
               className="w-3 h-3"
               fill="currentColor"
@@ -50,7 +50,7 @@ export default function GalleryPost({ post }: GalleryPostProps) {
 
         {/* テキスト部分 */}
         {post.text && removeUrls(post.text) && (
-          <p className="text-sm leading-relaxed text-gray-800 mb-2 whitespace-pre-wrap">
+          <p className="text-sm leading-relaxed text-gray-800 mb-3 whitespace-pre-wrap">
             {removeUrls(post.text)}
           </p>
         )}
@@ -223,7 +223,8 @@ export default function GalleryPost({ post }: GalleryPostProps) {
             href={post.tweet_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 shadow-md hover:shadow-lg transition-all duration-200"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+            style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
           >
             <svg
               className="w-3 h-3"

@@ -333,7 +333,13 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF5ED] via-[#FFFAF7] to-[#FFF0F0]">
+    <div className="min-h-screen bg-gradient-to-br from-[#FFF5ED] via-[#FFFAF7] to-[#FFF0F0] relative">
+      {/* 背景装飾 */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-[#FF9A33]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#45C6B9]/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-[#FD4B5D]/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+      </div>
       {/* ヘッダー */}
       <header 
         className={`fixed top-0 left-0 right-0 z-50 border-b-2 border-[#FF9A33]/30 bg-white/95 backdrop-blur-xl shadow-md transition-transform duration-300 ${
@@ -342,13 +348,13 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black" style={{ color: '#FF9A33' }}>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight" style={{ color: '#FF9A33' }}>
               TASTY VIVID TUNE
             </h1>
             <button
               disabled
-              className="px-4 py-2 rounded-full text-xs font-bold text-white shadow-sm cursor-not-allowed opacity-60"
-              style={{ background: '#999' }}
+              className="px-6 py-2.5 rounded-full text-xs font-bold text-white shadow-lg cursor-not-allowed opacity-70 backdrop-blur-sm"
+              style={{ background: 'linear-gradient(135deg, #999 0%, #777 100%)' }}
             >
               Coming Soon
             </button>
@@ -357,55 +363,55 @@ export default function Home() {
       </header>
 
       {/* メインコンテンツ */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-32">
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-32">
         {/* タイトル */}
-        <div className="text-center mb-12">
-          <h2 className="text-6xl sm:text-7xl md:text-8xl font-black mb-8">
-            <span style={{ color: '#FF9A33' }}>TASTY</span><br/>
-            <span style={{ color: '#45C6B9' }}>VIVID</span><br/>
-            <span style={{ color: '#FD4B5D' }}>TUNE</span>
+        <div className="text-center mb-16">
+          <h2 className="text-6xl sm:text-7xl md:text-8xl font-black mb-8 tracking-tighter leading-none">
+            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#FF9A33' }}>TASTY</span><br/>
+            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#45C6B9' }}>VIVID</span><br/>
+            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#FD4B5D' }}>TUNE</span>
           </h2>
         </div>
 
         {/* タブナビゲーション */}
-        <div className="flex justify-center mb-12">
-          <div className="flex gap-3 sm:gap-6 md:gap-12 border-b-2 border-gray-200 justify-center">
+        <div className="flex justify-center mb-16">
+          <div className="flex gap-3 sm:gap-6 md:gap-12 border-b-2 border-gray-200/50 justify-center backdrop-blur-sm bg-white/30 rounded-t-xl px-6 pb-0">
             <button
               onClick={() => document.getElementById('characters')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-3 text-xs sm:text-sm md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              className="pb-4 pt-4 text-xs sm:text-sm md:text-lg font-bold transition-all duration-300 border-b-4 hover:scale-105 hover:pb-3"
               style={{ 
                 color: '#FF9A33',
-                borderBottom: '3px solid #FF9A33'
+                borderBottom: '4px solid #FF9A33'
               }}
             >
               CHARACTERS
             </button>
             <button
               onClick={() => document.getElementById('stories')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-3 text-xs sm:text-sm md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              className="pb-4 pt-4 text-xs sm:text-sm md:text-lg font-bold transition-all duration-300 border-b-4 hover:scale-105 hover:pb-3"
               style={{ 
                 color: '#FD4B5D',
-                borderBottom: '3px solid #FD4B5D'
+                borderBottom: '4px solid #FD4B5D'
               }}
             >
               STORY
             </button>
             <button
               onClick={() => document.getElementById('information')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-3 text-xs sm:text-sm md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              className="pb-4 pt-4 text-xs sm:text-sm md:text-lg font-bold transition-all duration-300 border-b-4 hover:scale-105 hover:pb-3"
               style={{ 
                 color: '#45C6B9',
-                borderBottom: '3px solid #45C6B9'
+                borderBottom: '4px solid #45C6B9'
               }}
             >
               INFORMATION
             </button>
             <button
               onClick={() => document.getElementById('goods')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-3 text-xs sm:text-sm md:text-lg font-bold transition-colors duration-200 border-b-3 hover:opacity-70"
+              className="pb-4 pt-4 text-xs sm:text-sm md:text-lg font-bold transition-all duration-300 border-b-4 hover:scale-105 hover:pb-3"
               style={{ 
                 color: '#9B59B6',
-                borderBottom: '3px solid #9B59B6'
+                borderBottom: '4px solid #9B59B6'
               }}
             >
               GOODS
@@ -518,7 +524,7 @@ export default function Home() {
           </button>
 
           {/* 動画カード */}
-          <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border-2 border-[#45C6B9]/50">
+          <div className="relative bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl border-2 border-[#45C6B9]/30 hover:shadow-3xl hover:border-[#45C6B9]/50 transition-all duration-300">
             <video
               ref={videoRef}
               key={movies[currentIndex].id}
@@ -555,10 +561,10 @@ export default function Home() {
               {/* 左ボタン */}
               <button
                 onClick={goToPrevious}
-                className={`absolute left-0 top-0 bottom-0 flex items-center justify-center transition-all duration-200 hover:brightness-110 ${
+                className={`absolute left-0 top-0 bottom-0 flex items-center justify-center transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-95 ${
                   movies[currentIndex].id === 'floats' ? 'w-8 sm:w-10' : 'w-10 sm:w-12'
                 }`}
-                style={{ background: '#FF9A33' }}
+                style={{ background: 'linear-gradient(90deg, #FF9A33 0%, #FF8820 100%)' }}
                 aria-label="前の動画"
               >
                 <svg
@@ -591,10 +597,10 @@ export default function Home() {
               {/* 右ボタン */}
               <button
                 onClick={goToNext}
-                className={`absolute right-0 top-0 bottom-0 flex items-center justify-center transition-all duration-200 hover:brightness-110 ${
+                className={`absolute right-0 top-0 bottom-0 flex items-center justify-center transition-all duration-300 hover:brightness-110 hover:scale-105 active:scale-95 ${
                   movies[currentIndex].id === 'floats' ? 'w-8 sm:w-10' : 'w-10 sm:w-12'
                 }`}
-                style={{ background: '#FD4B5D' }}
+                style={{ background: 'linear-gradient(90deg, #FD4B5D 0%, #FF3545 100%)' }}
                 aria-label="次の動画"
               >
                 <svg
@@ -739,7 +745,7 @@ export default function Home() {
           </button>
 
           {/* ストーリーカード */}
-          <div className="relative bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border-2 border-[#FD4B5D]/50">
+          <div className="relative bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl border-2 border-[#FD4B5D]/30 hover:shadow-3xl hover:border-[#FD4B5D]/50 transition-all duration-300">
             <video
               ref={storyVideoRef}
               key={stories[storyIndex].id}
@@ -787,16 +793,16 @@ export default function Home() {
                 <div className="flex justify-center gap-4 mt-6">
                   <button
                     onClick={goToStoryPrevious}
-                    className="px-6 py-2 rounded-full font-bold text-white shadow-md transition-all duration-200 hover:scale-105"
-                    style={{ background: '#FF9A33' }}
+                    className="px-6 py-3 rounded-full font-bold text-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl active:scale-95"
+                    style={{ background: 'linear-gradient(135deg, #FF9A33 0%, #FF8820 100%)' }}
                     aria-label="前のストーリー"
                   >
                     ← 前へ
                   </button>
                   <button
                     onClick={goToStoryNext}
-                    className="px-6 py-2 rounded-full font-bold text-white shadow-md transition-all duration-200 hover:scale-105"
-                    style={{ background: '#FD4B5D' }}
+                    className="px-6 py-3 rounded-full font-bold text-white shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl active:scale-95"
+                    style={{ background: 'linear-gradient(135deg, #FD4B5D 0%, #FF3545 100%)' }}
                     aria-label="次のストーリー"
                   >
                     次へ →
@@ -837,8 +843,15 @@ export default function Home() {
 
         {/* INFORMATIONコンテンツ（準備中） */}
         <div className="max-w-3xl mx-auto mb-16">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 shadow-2xl border-2 border-[#45C6B9]/50">
-            <p className="text-center text-gray-500 text-lg">Coming Soon...</p>
+          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-16 shadow-2xl border-2 border-[#45C6B9]/30 hover:border-[#45C6B9]/50 transition-all duration-300">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}>
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <p className="text-center text-gray-500 text-xl font-bold">Coming Soon...</p>
+            </div>
           </div>
         </div>
 
@@ -851,8 +864,15 @@ export default function Home() {
 
         {/* GOODSコンテンツ（準備中） */}
         <div className="max-w-3xl mx-auto mb-16">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 shadow-2xl border-2 border-[#9B59B6]/50">
-            <p className="text-center text-gray-500 text-lg">Coming Soon...</p>
+          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-16 shadow-2xl border-2 border-[#9B59B6]/30 hover:border-[#9B59B6]/50 transition-all duration-300">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+              </div>
+              <p className="text-center text-gray-500 text-xl font-bold">Coming Soon...</p>
+            </div>
           </div>
         </div>
       </main>
