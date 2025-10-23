@@ -77,6 +77,19 @@ export default function Home() {
     }
   };
 
+  const restartPlay = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+      setIsPlaying(true);
+      // story動画を停止
+      if (storyVideoRef.current && storyPlaying) {
+        storyVideoRef.current.pause();
+        setStoryPlaying(false);
+      }
+    }
+  };
+
   const handleTimeUpdate = () => {
     if (videoRef.current) {
       setCurrentTime(videoRef.current.currentTime);
@@ -129,6 +142,19 @@ export default function Home() {
     }
   };
 
+  const restartStoryPlay = () => {
+    if (storyVideoRef.current) {
+      storyVideoRef.current.currentTime = 0;
+      storyVideoRef.current.play();
+      setStoryPlaying(true);
+      // characters動画を停止
+      if (videoRef.current && isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  };
+
   const handleStoryTimeUpdate = () => {
     if (storyVideoRef.current) {
       setStoryCurrentTime(storyVideoRef.current.currentTime);
@@ -156,39 +182,41 @@ export default function Home() {
   useEffect(() => {
     setCurrentTime(0);
     setDuration(0);
-    if (videoRef.current) {
-      if (videoRef.current.duration) {
-        setDuration(videoRef.current.duration);
+    const video = videoRef.current;
+    if (video) {
+      if (video.duration) {
+        setDuration(video.duration);
       }
       // isPlayingがtrueの場合のみ再生を試みる
       if (isPlaying) {
-        videoRef.current.play().catch(() => {
+        video.play().catch(() => {
           setIsPlaying(false);
         });
       } else {
-        videoRef.current.pause();
+        video.pause();
       }
     }
-  }, [currentIndex]);
+  }, [currentIndex, isPlaying]);
 
   // ストーリー切り替え時に状態をリセットし、メタデータを再取得
   useEffect(() => {
     setStoryCurrentTime(0);
     setStoryDuration(0);
-    if (storyVideoRef.current) {
-      if (storyVideoRef.current.duration) {
-        setStoryDuration(storyVideoRef.current.duration);
+    const video = storyVideoRef.current;
+    if (video) {
+      if (video.duration) {
+        setStoryDuration(video.duration);
       }
       // storyPlayingがtrueの場合のみ再生を試みる
       if (storyPlaying) {
-        storyVideoRef.current.play().catch(() => {
+        video.play().catch(() => {
           setStoryPlaying(false);
         });
       } else {
-        storyVideoRef.current.pause();
+        video.pause();
       }
     }
-  }, [storyIndex]);
+  }, [storyIndex, storyPlaying]);
 
   // 初期ローディング（最低1秒間表示）
   useEffect(() => {
@@ -438,6 +466,25 @@ export default function Home() {
             </span>
           </button>
 
+          {/* 最初から再生ボタン */}
+          <button
+            onClick={restartPlay}
+            className="absolute -top-8 right-24 px-2 py-1 rounded-md flex items-center gap-1 shadow-md transition-all duration-200 hover:scale-105 z-10"
+            style={{ background: '#FF9A33' }}
+            aria-label="最初から再生"
+          >
+            <svg
+              className="w-4 h-4 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+            </svg>
+            <span className="text-xs font-bold text-white">
+              最初から
+            </span>
+          </button>
+
           {/* 再生/停止ボタン */}
           <button
             onClick={togglePlay}
@@ -637,6 +684,25 @@ export default function Home() {
             )}
             <span className="text-xs font-bold text-white">
               {storyMuted ? 'OFF' : 'ON'}
+            </span>
+          </button>
+
+          {/* 最初から再生ボタン */}
+          <button
+            onClick={restartStoryPlay}
+            className="absolute -top-8 right-24 px-2 py-1 rounded-md flex items-center gap-1 shadow-md transition-all duration-200 hover:scale-105 z-10"
+            style={{ background: '#FF9A33' }}
+            aria-label="最初から再生"
+          >
+            <svg
+              className="w-4 h-4 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+            </svg>
+            <span className="text-xs font-bold text-white">
+              最初から
             </span>
           </button>
 
