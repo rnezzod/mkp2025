@@ -372,7 +372,7 @@ export default function Home() {
               className="px-6 py-2.5 rounded-full text-xs font-bold text-white shadow-lg cursor-not-allowed opacity-70 backdrop-blur-sm"
               style={{ background: 'linear-gradient(135deg, #999 0%, #777 100%)' }}
             >
-              → Coming Soon
+              Coming Soon
             </button>
           </div>
         </div>
@@ -962,16 +962,38 @@ export default function Home() {
           </h3>
         </div>
 
-        {/* GOODSコンテンツ（準備中） */}
-        <div className="max-w-3xl mx-auto mb-16">
-          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-16 shadow-2xl border-2 border-[#9B59B6]/30 hover:border-[#9B59B6]/50 transition-all duration-300">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
+        {/* GOODSコンテンツ */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#9B59B6]/30 hover:border-[#9B59B6]/50 transition-all duration-300">
+            <div className="flex flex-col items-center gap-6">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                </div>
+                <h4 className="text-2xl font-black" style={{ color: '#9B59B6' }}>グッズ一覧</h4>
               </div>
-              <p className="text-center text-gray-500 text-xl font-bold">Coming Soon...</p>
+              
+              <div className="w-full max-w-3xl">
+                <Image
+                  src="/お品書き.png"
+                  alt="グッズ一覧"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  priority
+                />
+              </div>
+              
+              <div className="text-center">
+                <p className="text-sm text-gray-600 mb-2">
+                  グッズの在庫には限りがございます
+                </p>
+                <p className="text-xs text-gray-500">
+                  展示会場（7号館 310）にて販売しております
+                </p>
+              </div>
             </div>
           </div>
         </div>
