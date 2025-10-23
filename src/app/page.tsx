@@ -815,11 +815,11 @@ export default function Home() {
             </div>
             <div className="p-6">
               {/* タイトルとテキスト */}
-              <div className="text-center mb-4">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-black mb-3" style={{ color: '#FD4B5D' }}>
+              <div className="mb-4">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-black mb-3 text-center" style={{ color: '#FD4B5D' }}>
                   {stories[storyIndex].title}
                 </h3>
-                <p className="text-sm sm:text-base leading-relaxed" style={{ color: '#666' }}>
+                <p className="text-sm sm:text-base leading-relaxed text-left" style={{ color: '#666' }}>
                   {stories[storyIndex].text}
                 </p>
               </div>
