@@ -348,9 +348,13 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight" style={{ color: '#FF9A33' }}>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer"
+              style={{ color: '#FF9A33' }}
+            >
               TASTY VIVID TUNE
-            </h1>
+            </button>
             <button
               disabled
               className="px-6 py-2.5 rounded-full text-xs font-bold text-white shadow-lg cursor-not-allowed opacity-70 backdrop-blur-sm"
