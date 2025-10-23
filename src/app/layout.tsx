@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://mkp2025.vercel.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://mkp25.com'),
   title: "TASTY VIVID TUNE",
   description: "Magic Kingdom Project - TASTY VIVID TUNE",
   manifest: "/manifest.json",
