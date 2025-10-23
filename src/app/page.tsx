@@ -38,12 +38,15 @@ export default function Home() {
   const [storyMuted, setStoryMuted] = useState(true);
   const [storyCurrentTime, setStoryCurrentTime] = useState(0);
   const [storyDuration, setStoryDuration] = useState(0);
-  const [storyPlaying, setStoryPlaying] = useState(true);
+  const [storyPlaying, setStoryPlaying] = useState(false);
   const storyVideoRef = useRef<HTMLVideoElement>(null);
 
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  
+  const charactersRef = useRef<HTMLDivElement>(null);
+  const storiesRef = useRef<HTMLDivElement>(null);
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? movies.length - 1 : prev - 1));
@@ -65,6 +68,11 @@ export default function Home() {
       } else {
         videoRef.current.play();
         setIsPlaying(true);
+        // story動画を停止
+        if (storyVideoRef.current && storyPlaying) {
+          storyVideoRef.current.pause();
+          setStoryPlaying(false);
+        }
       }
     }
   };
@@ -112,6 +120,11 @@ export default function Home() {
       } else {
         storyVideoRef.current.play();
         setStoryPlaying(true);
+        // characters動画を停止
+        if (videoRef.current && isPlaying) {
+          videoRef.current.pause();
+          setIsPlaying(false);
+        }
       }
     }
   };
@@ -143,10 +156,17 @@ export default function Home() {
   useEffect(() => {
     setCurrentTime(0);
     setDuration(0);
-    setIsPlaying(true);
     if (videoRef.current) {
       if (videoRef.current.duration) {
         setDuration(videoRef.current.duration);
+      }
+      // isPlayingがtrueの場合のみ再生を試みる
+      if (isPlaying) {
+        videoRef.current.play().catch(() => {
+          setIsPlaying(false);
+        });
+      } else {
+        videoRef.current.pause();
       }
     }
   }, [currentIndex]);
@@ -155,10 +175,17 @@ export default function Home() {
   useEffect(() => {
     setStoryCurrentTime(0);
     setStoryDuration(0);
-    setStoryPlaying(true);
     if (storyVideoRef.current) {
       if (storyVideoRef.current.duration) {
         setStoryDuration(storyVideoRef.current.duration);
+      }
+      // storyPlayingがtrueの場合のみ再生を試みる
+      if (storyPlaying) {
+        storyVideoRef.current.play().catch(() => {
+          setStoryPlaying(false);
+        });
+      } else {
+        storyVideoRef.current.pause();
       }
     }
   }, [storyIndex]);
@@ -198,6 +225,67 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
+
+  // セクションの表示に応じた動画の自動再生制御
+  useEffect(() => {
+    // ローディング中は何もしない
+    if (isLoading) return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -20% 0px', // 画面中央付近に来たときに発火
+      threshold: 0.1, // 10%以上表示されたら
+    };
+
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === charactersRef.current) {
+            // Charactersセクションが表示されたら
+            if (videoRef.current && videoRef.current.paused) {
+              videoRef.current.currentTime = 0; // 最初から再生
+              videoRef.current.play().catch((error) => {
+                console.log('Characters video autoplay prevented:', error);
+              });
+              setIsPlaying(true);
+            }
+            // Story動画を停止
+            if (storyVideoRef.current && !storyVideoRef.current.paused) {
+              storyVideoRef.current.pause();
+              setStoryPlaying(false);
+            }
+          } else if (entry.target === storiesRef.current) {
+            // Storyセクションが表示されたら
+            if (storyVideoRef.current && storyVideoRef.current.paused) {
+              storyVideoRef.current.currentTime = 0; // 最初から再生
+              storyVideoRef.current.play().catch((error) => {
+                console.log('Story video autoplay prevented:', error);
+              });
+              setStoryPlaying(true);
+            }
+            // Characters動画を停止
+            if (videoRef.current && !videoRef.current.paused) {
+              videoRef.current.pause();
+              setIsPlaying(false);
+            }
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+
+    if (charactersRef.current) {
+      observer.observe(charactersRef.current);
+    }
+    if (storiesRef.current) {
+      observer.observe(storiesRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isLoading]);
 
   if (isLoading) {
     return (
@@ -302,7 +390,7 @@ export default function Home() {
         </div>
 
         {/* 動画カルーセル */}
-        <div className="relative max-w-3xl mx-auto mb-16">
+        <div ref={charactersRef} className="relative max-w-3xl mx-auto mb-16">
           {/* 音量ボタン */}
           <button
             onClick={toggleMute}
@@ -504,7 +592,7 @@ export default function Home() {
         </div>
 
         {/* ストーリーカルーセル */}
-        <div className="relative max-w-3xl mx-auto mb-16">
+        <div ref={storiesRef} className="relative max-w-3xl mx-auto mb-16">
           {/* 音量ボタン */}
           <button
             onClick={toggleStoryMute}
@@ -586,7 +674,6 @@ export default function Home() {
             <video
               ref={storyVideoRef}
               key={stories[storyIndex].id}
-              autoPlay
               muted={storyMuted}
               playsInline
               onEnded={goToStoryNext}

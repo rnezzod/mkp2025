@@ -84,12 +84,17 @@
             "title": "チェリーソーダフロートのチェルシー\nメロンソーダフロートのメルヴィ\nレモネードフロートのレミリア",
             "name": "Chelsy Phiato\nMelvi Phiato\nRemilia Phiato",
             "url": "https://video.twimg.com/amplify_video/1980548359208230912/vid/avc1/1280x720/Z295qIt8F3qp5DqK.mp4?tag=14"
+        },
+        "staff": {
+            "title": "ウェイター＆ウェイトレス",
+            "name": "Waiter & Waitress",
+            "url": "https://video.twimg.com/amplify_video/1981166286672457728/vid/avc1/1280x720/ayqjs_uWptglsn7C.mp4?tag=14"
         }
     },
     "stories": {
         "story1": {
-            "title": "テストタイトル",
-            "text": "テストテキストテストテキストテストテキストテストテキストテストテキストテストテキストテストテキストテストテキストテストテキストテストテキストテストテキスト",
+            "title": "ストーリー紹介",
+            "text": "ここは美味しい料理と魔法のお店、Magic side DINER。先代からお店を引き継いだばかりの新米オーナーは出張キッチンで開店記念パーティを開くみたい！",
             "url": "https://video.twimg.com/ext_tw_video/1849365011707428864/pu/vid/avc1/1280x720/0gSuMzP5KQK6bJyd.mp4?tag=12"
         }
     }
