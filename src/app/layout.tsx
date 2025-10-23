@@ -28,10 +28,11 @@ export const metadata: Metadata = {
     siteName: "TASTY VIVID TUNE",
     images: [
       {
-        url: "/background_logo.PNG",
+        url: "/Xサムネイル.png",
         width: 1200,
         height: 630,
         alt: "TASTY VIVID TUNE",
+        type: "image/png",
       },
     ],
     locale: "ja_JP",
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "TASTY VIVID TUNE",
     description: "Magic Kingdom Project - TASTY VIVID TUNE",
-    images: ["/background_logo.PNG"],
+    images: ["/Xサムネイル.png"],
     creator: "@MagicKingdomProject",
   },
 };
