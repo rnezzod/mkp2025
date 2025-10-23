@@ -469,7 +469,7 @@ export default function Home() {
           {/* 最初から再生ボタン */}
           <button
             onClick={restartPlay}
-            className="absolute -top-8 right-24 px-2 py-1 rounded-md flex items-center gap-1 shadow-md transition-all duration-200 hover:scale-105 z-10"
+            className="absolute -top-8 right-20 px-2 py-1 rounded-md flex items-center gap-1 shadow-md transition-all duration-200 hover:scale-105 z-10"
             style={{ background: '#FF9A33' }}
             aria-label="最初から再生"
           >
@@ -690,7 +690,7 @@ export default function Home() {
           {/* 最初から再生ボタン */}
           <button
             onClick={restartStoryPlay}
-            className="absolute -top-8 right-24 px-2 py-1 rounded-md flex items-center gap-1 shadow-md transition-all duration-200 hover:scale-105 z-10"
+            className="absolute -top-8 right-20 px-2 py-1 rounded-md flex items-center gap-1 shadow-md transition-all duration-200 hover:scale-105 z-10"
             style={{ background: '#FF9A33' }}
             aria-label="最初から再生"
           >
