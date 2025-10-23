@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import movieData from '@/../../public/movie_urls.json';
+import informationData from '@/../../public/information.json';
 
 type MovieData = {
   title: string;
@@ -14,6 +15,17 @@ type StoryData = {
   title: string;
   text: string;
   url: string;
+};
+
+type InformationData = {
+  information: {
+    公演時間: Record<string, string>;
+    公演場所: Record<string, string>;
+    公演注意事項: string[];
+    展示場所: string;
+    展示時間: Record<string, string>;
+    展示注意事項: string[];
+  };
 };
 
 export default function Home() {
@@ -360,7 +372,7 @@ export default function Home() {
               className="px-6 py-2.5 rounded-full text-xs font-bold text-white shadow-lg cursor-not-allowed opacity-70 backdrop-blur-sm"
               style={{ background: 'linear-gradient(135deg, #999 0%, #777 100%)' }}
             >
-              Coming Soon
+              → Coming Soon
             </button>
           </div>
         </div>
@@ -845,16 +857,100 @@ export default function Home() {
           </h3>
         </div>
 
-        {/* INFORMATIONコンテンツ（準備中） */}
-        <div className="max-w-3xl mx-auto mb-16">
-          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-16 shadow-2xl border-2 border-[#45C6B9]/30 hover:border-[#45C6B9]/50 transition-all duration-300">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}>
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+        {/* INFORMATIONコンテンツ */}
+        <div className="max-w-4xl mx-auto mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* 公演情報 */}
+            <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#45C6B9]/30 hover:border-[#45C6B9]/50 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}>
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h4 className="text-2xl font-black" style={{ color: '#45C6B9' }}>公演情報</h4>
               </div>
-              <p className="text-center text-gray-500 text-xl font-bold">Coming Soon...</p>
+              
+              <div className="space-y-4">
+                <div>
+                  <h5 className="text-lg font-bold mb-2" style={{ color: '#FF9A33' }}>公演時間</h5>
+                  <div className="space-y-1">
+                    {Object.entries(informationData.information.公演時間).map(([date, time]) => (
+                      <div key={date} className="flex items-center py-1">
+                        <span className="font-semibold w-16">{date}</span>
+                        <span className="text-gray-700 ml-3">{time}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="text-lg font-bold mb-2" style={{ color: '#FF9A33' }}>公演場所</h5>
+                  <div className="space-y-1">
+                    {Object.entries(informationData.information.公演場所).map(([condition, location]) => (
+                      <div key={condition} className="flex items-center py-1">
+                        <span className="font-semibold w-16">{condition}</span>
+                        <span className="text-gray-700 ml-3">{location}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="text-lg font-bold mb-2" style={{ color: '#FF9A33' }}>公演注意事項</h5>
+                  <ul className="space-y-1">
+                    {informationData.information.公演注意事項.map((note, index) => (
+                      <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
+                        <span className="text-[#45C6B9] mt-1">•</span>
+                        <span>{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* 展示情報 */}
+            <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#FD4B5D]/30 hover:border-[#FD4B5D]/50 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FD4B5D 0%, #E53E3E 100%)' }}>
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+                <h4 className="text-2xl font-black" style={{ color: '#FD4B5D' }}>展示情報</h4>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <h5 className="text-lg font-bold mb-2" style={{ color: '#FF9A33' }}>展示場所</h5>
+                  <p className="text-gray-700 font-semibold">{informationData.information.展示場所}</p>
+                </div>
+
+                <div>
+                  <h5 className="text-lg font-bold mb-2" style={{ color: '#FF9A33' }}>展示時間</h5>
+                  <div className="space-y-1">
+                    {Object.entries(informationData.information.展示時間).map(([date, time]) => (
+                      <div key={date} className="flex items-center py-1">
+                        <span className="font-semibold w-16">{date}</span>
+                        <span className="text-gray-700 ml-3">{time}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="text-lg font-bold mb-2" style={{ color: '#FF9A33' }}>展示注意事項</h5>
+                  <ul className="space-y-1">
+                    {informationData.information.展示注意事項.map((note, index) => (
+                      <li key={index} className="text-sm text-gray-700 flex items-start gap-2">
+                        <span className="text-[#FD4B5D] mt-1">•</span>
+                        <span>{note}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
