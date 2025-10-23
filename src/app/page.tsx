@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import movieData from '@/../../public/movie_urls.json';
 
 type MovieData = {
@@ -319,10 +320,13 @@ export default function Home() {
     return (
       <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
         <div className="animate-pulse">
-          <img
+          <Image
             src="/white_logo.png"
             alt="Loading..."
+            width={192}
+            height={192}
             className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+            priority
           />
         </div>
       </div>

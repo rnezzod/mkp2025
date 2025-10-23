@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://mkp2025.vercel.app'),
   title: "TASTY VIVID TUNE",
   description: "Magic Kingdom Project - TASTY VIVID TUNE",
   manifest: "/manifest.json",
@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "TASTY VIVID TUNE",
     description: "Magic Kingdom Project - TASTY VIVID TUNE",
+    url: "/",
+    siteName: "TASTY VIVID TUNE",
     images: [
       {
         url: "/background_logo.PNG",
@@ -40,6 +42,7 @@ export const metadata: Metadata = {
     title: "TASTY VIVID TUNE",
     description: "Magic Kingdom Project - TASTY VIVID TUNE",
     images: ["/background_logo.PNG"],
+    creator: "@MagicKingdomProject",
   },
 };
 
