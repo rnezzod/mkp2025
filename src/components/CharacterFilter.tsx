@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface CharacterFilterProps {
   characters: string[];
@@ -14,6 +14,26 @@ export default function CharacterFilter({
   onSelectCharacters,
 }: CharacterFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(80); // デフォルト値
+
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      const header = document.querySelector('header');
+      if (header) {
+        setHeaderHeight(header.offsetHeight);
+      }
+    };
+
+    // 初回実行
+    updateHeaderHeight();
+
+    // リサイズ時に更新
+    window.addEventListener('resize', updateHeaderHeight);
+    
+    return () => {
+      window.removeEventListener('resize', updateHeaderHeight);
+    };
+  }, []);
 
   const toggleCharacter = (character: string) => {
     if (selectedCharacters.includes(character)) {
@@ -71,7 +91,13 @@ export default function CharacterFilter({
           />
 
           {/* メニュー */}
-          <div className="fixed top-36 md:top-24 left-1/2 -translate-x-1/2 md:left-auto md:right-4 md:translate-x-0 w-[90vw] max-w-md md:w-96 bg-white border-2 border-teal-400 rounded-2xl shadow-2xl z-20 flex flex-col max-h-[calc(100vh-10rem)] md:max-h-[calc(100vh-7rem)] overflow-hidden">
+          <div 
+            className="fixed left-1/2 -translate-x-1/2 md:left-auto md:right-4 md:translate-x-0 w-[90vw] max-w-md md:w-96 bg-white border-2 border-teal-400 rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            style={{ 
+              top: `${headerHeight + 16}px`,
+              maxHeight: `calc(100vh - ${headerHeight + 80}px)`
+            }}
+          >
             {/* ヘッダー */}
             <div className="flex-shrink-0 bg-teal-50 border-b-2 border-teal-300 px-4 md:px-5 py-3 md:py-4 flex justify-between items-center gap-3">
               <span className="text-sm font-bold text-teal-900 flex-1 min-w-0">
