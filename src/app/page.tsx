@@ -995,11 +995,39 @@ export default function Home() {
                 <h4 className="text-2xl font-black" style={{ color: '#9B59B6' }}>お品書き</h4>
               </div>
               
+              <div className="flex flex-col items-center gap-4 py-8">
+                <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <div className="text-center">
+                  <p className="text-lg font-semibold text-orange-900 mb-2">
+                    ⚠️ ネタバレ注意 ⚠️
+                  </p>
+                  <p className="text-sm text-orange-700 mb-4">
+                    お品書きには公演内容に関する情報が含まれています
+                  </p>
+                  <button
+                    onClick={() => {
+                      const img = document.getElementById('goods-image');
+                      if (img) {
+                        img.style.display = img.style.display === 'none' ? 'block' : 'none';
+                      }
+                    }}
+                    className="px-6 py-2 bg-orange-600 text-white rounded-full font-bold hover:bg-orange-700 transition-colors duration-200"
+                  >
+                    お品書きを見る
+                  </button>
+                </div>
+              </div>
+              
               <img 
+                id="goods-image"
                 src="/お品書き.png" 
                 alt="お品書き" 
                 className="max-w-full h-auto rounded-xl shadow-lg"
-                style={{ maxHeight: '800px' }}
+                style={{ maxHeight: '800px', display: 'none' }}
               />
             </div>
           </div>
