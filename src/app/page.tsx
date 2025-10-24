@@ -6,6 +6,7 @@ import Link from 'next/link';
 import movieData from '@/../../public/movie_urls.json';
 import informationData from '@/../../public/information.json';
 import snsData from '@/../../public/SNS_urls.json';
+import ImageModal from '@/components/ImageModal';
 
 type MovieData = {
   title: string;
@@ -58,6 +59,7 @@ export default function Home() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   
   const charactersRef = useRef<HTMLDivElement>(null);
   const storiesRef = useRef<HTMLDivElement>(null);
@@ -995,7 +997,7 @@ export default function Home() {
                 <h4 className="text-2xl font-black" style={{ color: '#9B59B6' }}>お品書き</h4>
               </div>
               
-              <div className="flex flex-col items-center gap-4 py-8">
+              <div id="spoiler-warning" className="flex flex-col items-center gap-4 py-8">
                 <div className="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center">
                   <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -1011,8 +1013,10 @@ export default function Home() {
                   <button
                     onClick={() => {
                       const img = document.getElementById('goods-image');
-                      if (img) {
-                        img.style.display = img.style.display === 'none' ? 'block' : 'none';
+                      const warning = document.getElementById('spoiler-warning');
+                      if (img && warning) {
+                        img.style.display = 'block';
+                        warning.style.display = 'none';
                       }
                     }}
                     className="px-6 py-2 bg-orange-600 text-white rounded-full font-bold hover:bg-orange-700 transition-colors duration-200"
@@ -1026,8 +1030,9 @@ export default function Home() {
                 id="goods-image"
                 src="/お品書き.png" 
                 alt="お品書き" 
-                className="max-w-full h-auto rounded-xl shadow-lg"
+                className="max-w-full h-auto rounded-xl shadow-lg cursor-pointer hover:shadow-xl transition-shadow duration-300"
                 style={{ maxHeight: '800px', display: 'none' }}
+                onClick={() => setSelectedImageUrl('/お品書き.png')}
               />
             </div>
           </div>
@@ -1096,6 +1101,17 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* 画像モーダル */}
+      {selectedImageUrl && (
+        <ImageModal
+          imageUrl={selectedImageUrl}
+          alt="お品書き"
+          isOpen={!!selectedImageUrl}
+          onClose={() => setSelectedImageUrl(null)}
+          tweetUrl="#"
+        />
+      )}
     </div>
   );
 }
