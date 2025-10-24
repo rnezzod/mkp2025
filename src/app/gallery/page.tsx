@@ -23,6 +23,7 @@ export default function GalleryPage() {
   const [headerVisible, setHeaderVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [showSpoilerWarning, setShowSpoilerWarning] = useState(true);
 
   // 初期ローディング（最低1秒間表示）
   useEffect(() => {
@@ -144,6 +145,48 @@ export default function GalleryPage() {
             alt="Loading..."
             className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
           />
+        </div>
+      </div>
+    );
+  }
+
+  // ネタバレ注意モーダル
+  if (showSpoilerWarning) {
+    return (
+      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="bg-white rounded-3xl p-8 mx-4 max-w-lg w-full shadow-2xl">
+          <div className="text-center">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-orange-100 flex items-center justify-center">
+              <svg className="w-10 h-10 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            
+            <h2 className="text-2xl font-bold text-orange-900 mb-4">
+              ⚠️ ネタバレ注意 ⚠️
+            </h2>
+            
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              このページには公演内容に関する情報が含まれています。<br />
+              まだ公演をご覧になっていない方は、<br />
+              ご注意ください。
+            </p>
+            
+            <div className="flex gap-3">
+              <button
+                onClick={() => window.history.back()}
+                className="flex-1 px-6 py-3 bg-gray-200 text-gray-800 rounded-full font-bold hover:bg-gray-300 transition-colors duration-200"
+              >
+                戻る
+              </button>
+              <button
+                onClick={() => setShowSpoilerWarning(false)}
+                className="flex-1 px-6 py-3 bg-orange-600 text-white rounded-full font-bold hover:bg-orange-700 transition-colors duration-200"
+              >
+                進む
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
