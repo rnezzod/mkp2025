@@ -372,7 +372,7 @@ export default function Home() {
                 letterSpacing: '0.01em'
               }}
             >
-              TASTY VIVID TUNE
+              TASTY VIVID TUNE!
             </button>
             <div className="flex gap-2">
               <Link
@@ -401,7 +401,7 @@ export default function Home() {
           <h2 className="text-6xl sm:text-7xl md:text-8xl font-black mb-8 leading-none">
             <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#FF9A33', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>TASTY</span><br/>
             <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#45C6B9', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>VIVID</span><br/>
-            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#FD4B5D', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>TUNE</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#FD4B5D', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>TUNE!</span>
           </h2>
         </div>
 
