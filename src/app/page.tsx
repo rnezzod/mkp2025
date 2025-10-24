@@ -374,20 +374,20 @@ export default function Home() {
             >
               TASTY VIVID TUNE
             </button>
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <Link
                 href="/about"
-                className="px-4 py-2 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                className="px-3 py-2 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
                 style={{ background: 'linear-gradient(135deg, #FF9A33 0%, #FF8820 100%)' }}
               >
                 About
               </Link>
               <Link
                 href="/gallery"
-                className="px-6 py-2.5 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                className="px-3 py-2 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
                 style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
               >
-                ギャラリー
+                Gallery
               </Link>
             </div>
           </div>
