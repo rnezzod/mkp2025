@@ -382,13 +382,13 @@ export default function Home() {
               >
                 About
               </Link>
-              <button
-                disabled
-                className="px-6 py-2.5 rounded-full text-xs font-bold text-white shadow-lg cursor-not-allowed opacity-70 backdrop-blur-sm"
-                style={{ background: 'linear-gradient(135deg, #999 0%, #777 100%)' }}
+              <Link
+                href="/gallery"
+                className="px-6 py-2.5 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
               >
-                ？？？
-              </button>
+                ギャラリー
+              </Link>
             </div>
           </div>
         </div>
