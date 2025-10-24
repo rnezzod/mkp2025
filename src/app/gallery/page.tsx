@@ -84,6 +84,11 @@ export default function GalleryPage() {
   useEffect(() => {
     let filtered = [...allPosts];
 
+    // charactersが空または存在しないポストを除外
+    filtered = filtered.filter((post) => {
+      return post.characters && post.characters.length > 0;
+    });
+
     // フィルタリング: 選択した全てのキャラクターを含む投稿のみ（AND条件）
     if (selectedCharacters.length > 0) {
       filtered = filtered.filter((post) => {
@@ -101,8 +106,6 @@ export default function GalleryPage() {
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
         case 'oldest':
           return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-        case 'likes':
-          return b.likes - a.likes;
         default:
           return 0;
       }
@@ -224,7 +227,7 @@ export default function GalleryPage() {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#45C6B9' }}></div>
               <span className="text-sm font-semibold text-orange-900">
-                {posts.length}件のポスト
+                {posts.length}件の画像
               </span>
             </div>
             {selectedCharacters.length > 0 && (
@@ -256,8 +259,8 @@ export default function GalleryPage() {
             </div>
             <p className="text-lg font-medium text-orange-900 mb-2">
               {selectedCharacters.length > 0
-                ? '該当するポストが見つかりませんでした'
-                : 'ポストがありません'}
+                ? '該当する画像が見つかりませんでした'
+                : '画像がありません'}
             </p>
             <p className="text-sm text-orange-700">
               {selectedCharacters.length > 0

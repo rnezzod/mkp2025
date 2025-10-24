@@ -1,7 +1,32 @@
 // microCMSのギャラリーデータの型定義
 
-export interface Image {
-  url: string;
+export interface ApiField {
+  fieldId: string;
+  name: string;
+  kind: string;
+  required: boolean;
+  customFieldCreatedAtList?: string[];
+}
+
+export interface CustomField {
+  createdAt: string;
+  fieldId: string;
+  name: string;
+  fields: Array<{
+    idValue: string;
+    fieldId: string;
+    name: string;
+    kind: string;
+    required: boolean;
+  }>;
+  position: string[][];
+  updatedAt: string;
+  viewerGroup: string;
+}
+
+export interface ApiSchema {
+  apiFields: ApiField[];
+  customFields: CustomField[];
 }
 
 export interface Character {
@@ -11,11 +36,10 @@ export interface Character {
 export interface GalleryPost {
   id: string;
   tweet_url: string;
-  text: string;
+  user: string;
   created_at: string;
-  images: Image[];
-  likes: number;
-  characters: Character[];
+  image?: string; // 単一の画像URL
+  characters?: Character[];
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

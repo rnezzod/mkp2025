@@ -983,29 +983,24 @@ export default function Home() {
         </div>
 
         {/* GOODSコンテンツ */}
-        <div className="max-w-4xl mx-auto mb-16">
-          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#9B59B6]/30 hover:border-[#9B59B6]/50 transition-all duration-300">
-            <div className="flex flex-col items-center gap-6">
-              <div className="flex items-center gap-3 mb-2">
+        <div className="max-w-6xl mx-auto mb-16">
+          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-4 shadow-2xl border-2 border-[#9B59B6]/30 hover:border-[#9B59B6]/50 transition-all duration-300">
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
                 </div>
-                <h4 className="text-2xl font-black" style={{ color: '#9B59B6' }}>グッズ一覧</h4>
+                <h4 className="text-2xl font-black" style={{ color: '#9B59B6' }}>お品書き</h4>
               </div>
               
-              <div className="text-center">
-                <div className="w-24 h-24 mx-auto mb-4 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
-                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <h5 className="text-xl font-bold mb-2" style={{ color: '#9B59B6' }}>Coming Soon</h5>
-                <p className="text-gray-600">
-                  グッズ情報は初日公演後に公開予定です
-                </p>
-              </div>
+              <img 
+                src="/お品書き.png" 
+                alt="お品書き" 
+                className="max-w-full h-auto rounded-xl shadow-lg"
+                style={{ maxHeight: '800px' }}
+              />
             </div>
           </div>
         </div>

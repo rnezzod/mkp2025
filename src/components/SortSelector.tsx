@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export type SortOption = 'newest' | 'oldest' | 'likes';
+export type SortOption = 'newest' | 'oldest';
 
 interface SortSelectorProps {
   selectedSort: SortOption;
@@ -12,7 +12,6 @@ interface SortSelectorProps {
 const sortOptions: { value: SortOption; label: string }[] = [
   { value: 'newest', label: '新しい順' },
   { value: 'oldest', label: '古い順' },
-  { value: 'likes', label: 'いいね数順' },
 ];
 
 export default function SortSelector({
