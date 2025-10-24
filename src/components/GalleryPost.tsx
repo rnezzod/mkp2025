@@ -42,50 +42,24 @@ export default function GalleryPost({ post }: GalleryPostProps) {
         {/* 画像表示 */}
         {post.image && (
           <div className="mb-2 flex-shrink-0">
-            {/* スマホ：縦1列 */}
-            <div className="sm:hidden">
-              <div
-                onClick={() => setSelectedImageUrl(post.image!)}
-                className="relative bg-gray-100 overflow-hidden aspect-[3/4] rounded-xl cursor-pointer group/image"
-              >
-                <Image
-                  src={post.image}
-                  alt={`@${post.user} の画像`}
-                  fill
-                  className="object-cover group-hover/image:scale-105 transition-transform duration-300"
-                  sizes="100vw"
-                  priority
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
-                    <svg className="w-6 h-6 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* PC：X風レイアウト */}
-            <div className="hidden sm:block">
-              <div
-                onClick={() => setSelectedImageUrl(post.image!)}
-                className="relative bg-gray-100 overflow-hidden aspect-[16/10] rounded-xl cursor-pointer group/image"
-              >
-                <Image
-                  src={post.image}
-                  alt={`@${post.user} の画像`}
-                  fill
-                  className="object-cover group-hover/image:scale-105 transition-transform duration-300"
-                  sizes="(max-width: 1200px) 50vw, 33vw"
-                  priority
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                  <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
-                    <svg className="w-6 h-6 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-                    </svg>
-                  </div>
+            <div
+              onClick={() => setSelectedImageUrl(post.image!)}
+              className="relative bg-gray-100 overflow-hidden rounded-xl cursor-pointer group/image"
+            >
+              <Image
+                src={post.image}
+                alt={`@${post.user} の画像`}
+                width={800}
+                height={600}
+                className="w-full h-auto max-h-[400px] sm:max-h-[500px] object-contain group-hover/image:scale-105 transition-transform duration-300"
+                sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover/image:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                <div className="opacity-0 group-hover/image:opacity-100 transition-opacity duration-200 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
+                  <svg className="w-6 h-6 text-orange-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                  </svg>
                 </div>
               </div>
             </div>
