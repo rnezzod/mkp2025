@@ -900,7 +900,19 @@ export default function Home() {
                     {Object.entries(informationData.information.公演時間).map(([date, time]) => (
                       <div key={date} className="flex items-center py-1">
                         <span className="font-semibold w-16">{date}</span>
-                        <span className="text-gray-700 ml-3">{time}</span>
+                        <div className="ml-3">
+                          {date === '10/25' ? (
+                            <div className="space-y-1">
+                              <div className="text-gray-700 relative">
+                                <span className="line-through text-gray-400">15:10~15:40</span>
+                                <span className="ml-2 text-xs text-red-600 font-semibold">雨天のため変更</span>
+                              </div>
+                              <div className="text-gray-700 font-semibold">{time}</div>
+                            </div>
+                          ) : (
+                            <span className="text-gray-700">{time}</span>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
