@@ -243,6 +243,7 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+
   // ヘッダーの表示/非表示制御
   useEffect(() => {
     const handleScroll = () => {
@@ -335,13 +336,12 @@ export default function Home() {
     return (
       <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
         <div className="animate-pulse">
-          <Image
-            src="/white_logo.png"
+          <img
+            src="/teruteru.gif"
             alt="Loading..."
             width={192}
             height={192}
             className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
-            priority
           />
         </div>
       </div>
