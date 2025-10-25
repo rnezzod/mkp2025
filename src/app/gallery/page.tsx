@@ -24,6 +24,7 @@ export default function GalleryPage() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [showSpoilerWarning, setShowSpoilerWarning] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // 初期ローディング（最低1秒間表示）
   useEffect(() => {
@@ -34,27 +35,34 @@ export default function GalleryPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/gallery');
-        if (!response.ok) {
-          throw new Error('データの取得に失敗しました');
-        }
-        const data = await response.json();
-        setAllPosts(data.posts);
-        setPosts(data.posts);
-        setCharacters(data.characters);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : '不明なエラーが発生しました');
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/gallery');
+      if (!response.ok) {
+        throw new Error('データの取得に失敗しました');
       }
+      const data = await response.json();
+      setAllPosts(data.posts);
+      setPosts(data.posts);
+      setCharacters(data.characters);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : '不明なエラーが発生しました');
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await fetchData();
+    setIsRefreshing(false);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -284,12 +292,34 @@ export default function GalleryPage() {
           </div>
           
           {totalPages > 1 && (
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border-2 border-[#45C6B9]/50 shadow-lg">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border-2 border-[#45C6B9]/50 shadow-lg">
               <span className="text-xs font-semibold" style={{ color: '#45C6B9' }}>
                 ページ {currentPage} / {totalPages}
               </span>
             </div>
           )}
+          
+          <button
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            className="p-2 rounded-full bg-white/95 backdrop-blur-md border-2 border-[#45C6B9]/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ml-auto"
+            aria-label="ギャラリーを更新"
+          >
+            <svg
+              className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              style={{ color: '#45C6B9' }}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+          </button>
         </div>
 
         {/* ギャラリーグリッド */}
