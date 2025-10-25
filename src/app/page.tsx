@@ -909,6 +909,11 @@ export default function Home() {
                               </div>
                               <div className="text-gray-700 font-semibold">{time}</div>
                             </div>
+                          ) : date === '10/26' ? (
+                            <div className="space-y-1">
+                              <div className="text-gray-700 font-semibold">{time}</div>
+                              <div className="text-sm text-gray-500">（雨天時は14:15~14:45）</div>
+                            </div>
                           ) : (
                             <span className="text-gray-700">{time}</span>
                           )}
