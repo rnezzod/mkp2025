@@ -90,6 +90,52 @@ export async function getAllCharacters(): Promise<string[]> {
     offset += limit;
   }
 
-  return Array.from(charactersSet).sort();
+  // カスタムソート関数
+  const specialCharacters = [
+    'オーナー',
+    'ベテランウェイター',
+    'ベテランウェイトレス',
+    '新人ウェイター',
+    '新人ウェイトレス',
+    'Poppin\'Roll',
+  ];
+  
+  const charactersArray = Array.from(charactersSet);
+  
+  return charactersArray.sort((a, b) => {
+    const aIsSpecial = specialCharacters.includes(a);
+    const bIsSpecial = specialCharacters.includes(b);
+    
+    // オーナーを1番目に
+    if (a === 'オーナー') return -1;
+    if (b === 'オーナー') return 1;
+    
+    // Poppin'Rollを最後に
+    if (a === 'Poppin\'Roll') return 1;
+    if (b === 'Poppin\'Roll') return -1;
+    
+    // ウェイター/ウェイトレスを後ろに（Poppin'Rollの前）
+    const waiterOrder = ['ベテランウェイター', 'ベテランウェイトレス', '新人ウェイター', '新人ウェイトレス'];
+    const aIndex = waiterOrder.indexOf(a);
+    const bIndex = waiterOrder.indexOf(b);
+    
+    if (aIndex !== -1 && bIndex !== -1) {
+      return aIndex - bIndex;
+    }
+    if (aIndex !== -1) return 1; // aを後ろに
+    if (bIndex !== -1) return -1; // bを後ろに
+    
+    // その他（通常のキャラクター）を50音順で前の方に
+    if (!aIsSpecial && !bIsSpecial) {
+      return a.localeCompare(b, 'ja');
+    }
+    
+    // aが通常、bが特別 → aを前
+    if (!aIsSpecial) return -1;
+    // aが特別、bが通常 → bを前
+    if (!bIsSpecial) return 1;
+    
+    return 0;
+  });
 }
 
