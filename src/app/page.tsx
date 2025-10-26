@@ -334,10 +334,10 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
         <div className="animate-pulse">
           <img
-            src="/teruteru.gif"
+            src="/logo.png"
             alt="Loading..."
             width={192}
             height={192}
