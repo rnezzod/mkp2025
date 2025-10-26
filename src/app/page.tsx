@@ -911,8 +911,11 @@ export default function Home() {
                             </div>
                           ) : date === '10/26' ? (
                             <div className="space-y-1">
+                              <div className="text-gray-700 relative">
+                                <span className="line-through text-gray-400">15:10~15:40</span>
+                                <span className="ml-2 text-xs text-red-600 font-semibold">雨天のため変更</span>
+                              </div>
                               <div className="text-gray-700 font-semibold">{time}</div>
-                              <div className="text-sm text-gray-500">（雨天時は14:15~14:45）</div>
                             </div>
                           ) : (
                             <span className="text-gray-700">{time}</span>
