@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGalleryPosts } from '@/lib/microcms';
+import { getAllGalleryPosts } from '@/lib/microcms';
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,30 +10,47 @@ export async function GET(request: NextRequest) {
     const characters = charactersParam ? charactersParam.split(',').filter(Boolean) : [];
     const sort = searchParams.get('sort') || 'newest';
     
-    // sort param to microCMS orders
-    const orders = sort === 'oldest' ? 'created_at' : '-created_at';
+    // 全件データを取得（キャッシュ有効）
+    let allPosts = await getAllGalleryPosts();
 
-    // microCMS filter construction
-    let q: string | undefined = undefined;
-    
+    // フィルタリング (AND検索)
     if (characters.length > 0) {
-      // 全文検索で代用 (AND検索)
-      // microCMSのqパラメータはスペース区切りでAND検索になる
-      q = characters.join(' ');
+      allPosts = allPosts.filter(post => {
+        if (!post.characters || post.characters.length === 0) return false;
+        // 投稿に含まれるキャラクター名のリストを作成
+        const postCharNames = post.characters.map(c => c.name);
+        // 選択されたキャラクターの全て（AND）が含まれているかチェック
+        return characters.every(char => postCharNames.includes(char));
+      });
+    } else {
+        // キャラクター指定がない場合も、キャラクターが設定されている記事のみを表示する
+        allPosts = allPosts.filter(post => post.characters && post.characters.length > 0);
     }
-    
-    // filtersは一旦使用しない（リピーターフィールド内の検索が難しいため）
-    const filters = undefined;
 
-    console.log(`[API Debug] Request params: page=${page}, limit=${limit}, q=${q}, orders=${orders}`);
+    // ソート
+    if (sort === 'oldest') {
+        allPosts.sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
+    } else {
+        // デフォルトはnewest（microCMSから取得時点でnewestだが、並列取得で順序が崩れる可能性もあるため再ソート）
+        allPosts.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    }
 
-    const galleryResponse = await getGalleryPosts(page, limit, filters, orders, q);
-    
-    console.log(`[API Debug] Response count: ${galleryResponse.contents.length}`);
+    // ページネーション
+    const totalCount = allPosts.length;
+    const startIndex = (page - 1) * limit;
+    const endIndex = startIndex + limit;
+    const paginatedPosts = allPosts.slice(startIndex, endIndex);
 
     return NextResponse.json({
-      posts: galleryResponse.contents,
-      totalCount: galleryResponse.totalCount,
+      posts: paginatedPosts,
+      totalCount: totalCount,
+    }, {
+      headers: {
+        // クライアント側でのキャッシュは無効化するが、サーバー側ではmicroCMSからのデータをキャッシュしている
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      }
     });
   } catch (error) {
     console.error('Error fetching gallery data:', error);

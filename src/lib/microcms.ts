@@ -1,5 +1,5 @@
 import { createClient } from 'microcms-js-sdk';
-import type { GalleryResponse } from '@/types/gallery';
+import type { GalleryResponse, GalleryPost } from '@/types/gallery';
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
   throw new Error('MICROCMS_SERVICE_DOMAIN is not defined');
@@ -43,5 +43,62 @@ export async function getGalleryPosts(
   return response;
 }
 
-// 固定リストを使用するため廃止
-// export async function getAllCharacters(): Promise<string[]> { ... }
+// 全件取得してメモリ上でフィルタリングするための関数
+// キャッシュを活用するため、Next.jsのfetchキャッシュが効くようにカスタムfetchを使用したいところだが、
+// microCMS SDKは内部でfetchを使っているため、fetchオプションを渡せればよい。
+// SDKのcreateClientでcustomFetchを指定できるが、ここでは簡易的に実装する。
+export async function getAllGalleryPosts(): Promise<GalleryPost[]> {
+  const limit = 100; // 1回あたりの最大取得件数
+  let offset = 0;
+  let allContents: GalleryPost[] = [];
+  
+  // 初回リクエストで総数を取得
+  const firstResponse = await client.get<GalleryResponse>({
+    endpoint: ENDPOINT,
+    queries: {
+      limit,
+      offset: 0,
+      fields: 'id,created_at,tweet_url,user,image,characters', // 必要なフィールドのみ取得
+      orders: '-created_at',
+    },
+    customRequestInit: {
+      next: { revalidate: 3600 } // 1時間キャッシュ
+    }
+  });
+
+  allContents = [...firstResponse.contents];
+  const totalCount = firstResponse.totalCount;
+
+  if (totalCount <= limit) {
+    return allContents;
+  }
+
+  // 残りのデータを並列取得
+  const promises = [];
+  for (offset = limit; offset < totalCount; offset += limit) {
+    promises.push(
+      client.get<GalleryResponse>({
+        endpoint: ENDPOINT,
+        queries: {
+          limit,
+          offset,
+          fields: 'id,created_at,tweet_url,user,image,characters',
+          orders: '-created_at',
+        },
+        customRequestInit: {
+          next: { revalidate: 3600 }
+        }
+      })
+    );
+  }
+
+  const responses = await Promise.all(promises);
+  responses.forEach(res => {
+    allContents = [...allContents, ...res.contents];
+  });
+
+  // 日付順（新しい順）にソートされているはずだが、念のため
+  // allContents.sort(...) 
+
+  return allContents;
+}

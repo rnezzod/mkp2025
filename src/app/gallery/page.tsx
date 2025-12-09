@@ -53,7 +53,7 @@ export default function GalleryPage() {
         queryParams.append('characters', selectedCharacters.join(','));
       }
 
-      const response = await fetch(`/api/gallery?${queryParams.toString()}`);
+      const response = await fetch(`/api/gallery?${queryParams.toString()}`, { cache: 'no-store' });
       if (!response.ok) {
         throw new Error('データの取得に失敗しました');
       }
