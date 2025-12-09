@@ -47,11 +47,15 @@ export async function getGalleryPosts(
 // キャッシュを活用するため、Next.jsのfetchキャッシュが効くようにカスタムfetchを使用したいところだが、
 // microCMS SDKは内部でfetchを使っているため、fetchオプションを渡せればよい。
 // SDKのcreateClientでcustomFetchを指定できるが、ここでは簡易的に実装する。
-export async function getAllGalleryPosts(): Promise<GalleryPost[]> {
+export async function getAllGalleryPosts(ignoreCache: boolean = false): Promise<GalleryPost[]> {
   const limit = 100; // 1回あたりの最大取得件数
   let offset = 0;
   let allContents: GalleryPost[] = [];
   
+  const fetchOptions = ignoreCache 
+    ? { cache: 'no-store' as RequestCache } 
+    : { next: { revalidate: 3600 } };
+
   // 初回リクエストで総数を取得
   const firstResponse = await client.get<GalleryResponse>({
     endpoint: ENDPOINT,
@@ -61,9 +65,7 @@ export async function getAllGalleryPosts(): Promise<GalleryPost[]> {
       fields: 'id,created_at,tweet_url,user,image,characters', // 必要なフィールドのみ取得
       orders: '-created_at',
     },
-    customRequestInit: {
-      next: { revalidate: 3600 } // 1時間キャッシュ
-    }
+    customRequestInit: fetchOptions
   });
 
   allContents = [...firstResponse.contents];
@@ -85,9 +87,7 @@ export async function getAllGalleryPosts(): Promise<GalleryPost[]> {
           fields: 'id,created_at,tweet_url,user,image,characters',
           orders: '-created_at',
         },
-        customRequestInit: {
-          next: { revalidate: 3600 }
-        }
+        customRequestInit: fetchOptions
       })
     );
   }

@@ -9,9 +9,10 @@ export async function GET(request: NextRequest) {
     const charactersParam = searchParams.get('characters');
     const characters = charactersParam ? charactersParam.split(',').filter(Boolean) : [];
     const sort = searchParams.get('sort') || 'newest';
+    const refresh = searchParams.get('refresh') === 'true';
     
-    // 全件データを取得（キャッシュ有効）
-    let allPosts = await getAllGalleryPosts();
+    // 全件データを取得（キャッシュ有効、refresh=trueの場合は無効）
+    let allPosts = await getAllGalleryPosts(refresh);
 
     // フィルタリング (AND検索)
     if (characters.length > 0) {

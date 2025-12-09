@@ -40,7 +40,7 @@ export default function GalleryPage() {
     return () => clearTimeout(timer);
   }, []);
 
-  const fetchPosts = async () => {
+  const fetchPosts = async (forceRefresh: boolean = false) => {
     try {
       setLoading(true);
       const queryParams = new URLSearchParams({
@@ -51,6 +51,10 @@ export default function GalleryPage() {
 
       if (selectedCharacters.length > 0) {
         queryParams.append('characters', selectedCharacters.join(','));
+      }
+
+      if (forceRefresh) {
+        queryParams.append('refresh', 'true');
       }
 
       const response = await fetch(`/api/gallery?${queryParams.toString()}`, { cache: 'no-store' });
@@ -76,7 +80,7 @@ export default function GalleryPage() {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await fetchPosts();
+    await fetchPosts(true);
     setIsRefreshing(false);
   };
 
