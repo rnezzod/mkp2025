@@ -20,16 +20,6 @@ type StoryData = {
   url: string;
 };
 
-type InformationData = {
-  information: {
-    公演時間: Record<string, string>;
-    公演場所: Record<string, string>;
-    公演注意事項: string[];
-    展示場所: string;
-    展示時間: Record<string, string>;
-    展示注意事項: string[];
-  };
-};
 
 export default function Home() {
   const movies = Object.entries(movieData.characters).map(([key, value]) => ({

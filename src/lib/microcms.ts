@@ -1,5 +1,5 @@
 import { createClient } from 'microcms-js-sdk';
-import type { GalleryResponse, GalleryPost } from '@/types/gallery';
+import type { GalleryResponse } from '@/types/gallery';
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
   throw new Error('MICROCMS_SERVICE_DOMAIN is not defined');

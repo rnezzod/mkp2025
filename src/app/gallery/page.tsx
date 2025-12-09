@@ -71,6 +71,7 @@ export default function GalleryPage() {
 
   useEffect(() => {
     fetchPosts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, selectedCharacters, sortOption]);
 
   const handleRefresh = async () => {
