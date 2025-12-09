@@ -234,11 +234,11 @@ export default function Home() {
     }
   }, [storyIndex, storyPlaying]);
 
-  // 初期ローディング（最低1秒間表示）
+  // 初期ローディング（最低0.3秒間表示）
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, []);

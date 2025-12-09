@@ -8,16 +8,16 @@ import SortSelector, { SortOption } from '@/components/SortSelector';
 import Pagination from '@/components/Pagination';
 import Link from 'next/link';
 import snsData from '@/../../public/SNS_urls.json';
+import { CHARACTER_LIST } from '@/constants/characters';
 
 const POSTS_PER_PAGE = 18;
 
 export default function GalleryPage() {
   const [posts, setPosts] = useState<GalleryPostType[]>([]);
-  const [allPosts, setAllPosts] = useState<GalleryPostType[]>([]);
-  const [characters, setCharacters] = useState<string[]>([]);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
   const [sortOption, setSortOption] = useState<SortOption>('newest');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [headerVisible, setHeaderVisible] = useState(true);
@@ -29,38 +29,53 @@ export default function GalleryPage() {
   // 初期ローディング（最低1秒間表示）
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsInitialLoading(false);
+      // APIコールの完了を待つため、ここでは何もしないか、
+      // isInitialLoadingの制御をfetchPostsの完了に任せる方針に変更
+      // ただし、最低1秒という要件があれば維持するが、
+      // 今回はパフォーマンス改善が主眼なので、API応答次第で表示するようにする。
+      // ただし、UIのちらつき防止のため、あえて残すことも考えられるが、
+      // ここではAPI取得完了時にもfalseにするため、二重管理にならないように注意。
     }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
 
-  const fetchData = async () => {
+  const fetchPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/gallery');
+      const queryParams = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: POSTS_PER_PAGE.toString(),
+        sort: sortOption,
+      });
+
+      if (selectedCharacters.length > 0) {
+        queryParams.append('characters', selectedCharacters.join(','));
+      }
+
+      const response = await fetch(`/api/gallery?${queryParams.toString()}`);
       if (!response.ok) {
         throw new Error('データの取得に失敗しました');
       }
       const data = await response.json();
-      setAllPosts(data.posts);
       setPosts(data.posts);
-      setCharacters(data.characters);
+      setTotalCount(data.totalCount);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : '不明なエラーが発生しました');
     } finally {
       setLoading(false);
+      setIsInitialLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchPosts();
+  }, [currentPage, selectedCharacters, sortOption]);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    await fetchData();
+    await fetchPosts();
     setIsRefreshing(false);
   };
 
@@ -90,46 +105,14 @@ export default function GalleryPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
-  useEffect(() => {
-    let filtered = [...allPosts];
-
-    // charactersが空または存在しないポストを除外
-    filtered = filtered.filter((post) => {
-      return post.characters && post.characters.length > 0;
-    });
-
-    // フィルタリング: 選択した全てのキャラクターを含む投稿のみ（AND条件）
-    if (selectedCharacters.length > 0) {
-      filtered = filtered.filter((post) => {
-        const postCharacterNames = post.characters?.map((char) => char.name) || [];
-        return selectedCharacters.every((selectedChar) =>
-          postCharacterNames.includes(selectedChar)
-        );
-      });
-    }
-
-    // ソート
-    const sorted = [...filtered].sort((a, b) => {
-      switch (sortOption) {
-        case 'newest':
-          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-        case 'oldest':
-          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-        default:
-          return 0;
-      }
-    });
-
-    setPosts(sorted);
-    setCurrentPage(1); // フィルター・ソート変更時は1ページ目に戻る
-  }, [selectedCharacters, sortOption, allPosts]);
-
   const handleSelectCharacters = (characters: string[]) => {
     setSelectedCharacters(characters);
+    setCurrentPage(1); // フィルター変更時は1ページ目に戻る
   };
 
   const handleSelectSort = (sort: SortOption) => {
     setSortOption(sort);
+    setCurrentPage(1); // ソート変更時は1ページ目に戻る
   };
 
   const handlePageChange = (page: number) => {
@@ -139,12 +122,9 @@ export default function GalleryPage() {
   };
 
   // ページネーション用の計算
-  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
-  const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-  const endIndex = startIndex + POSTS_PER_PAGE;
-  const currentPosts = posts.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE);
 
-  if (isInitialLoading || loading) {
+  if (isInitialLoading) {
     return (
       <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
         <div className="animate-pulse">
@@ -261,7 +241,7 @@ export default function GalleryPage() {
                 onSelectSort={handleSelectSort}
               />
               <CharacterFilter
-                characters={characters}
+                characters={CHARACTER_LIST}
                 selectedCharacters={selectedCharacters}
                 onSelectCharacters={handleSelectCharacters}
               />
@@ -278,7 +258,7 @@ export default function GalleryPage() {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#45C6B9' }}></div>
               <span className="text-sm font-semibold text-orange-900">
-                {posts.length}件の画像
+                {totalCount}件の画像
               </span>
             </div>
             {selectedCharacters.length > 0 && (
@@ -301,12 +281,12 @@ export default function GalleryPage() {
           
           <button
             onClick={handleRefresh}
-            disabled={isRefreshing}
+            disabled={isRefreshing || loading}
             className="p-2 rounded-full bg-white/95 backdrop-blur-md border-2 border-[#45C6B9]/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ml-auto"
             aria-label="ギャラリーを更新"
           >
             <svg
-              className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`}
+              className={`w-3 h-3 ${isRefreshing || loading ? 'animate-spin' : ''}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -323,7 +303,11 @@ export default function GalleryPage() {
         </div>
 
         {/* ギャラリーグリッド */}
-        {posts.length === 0 ? (
+        {loading ? (
+           <div className="min-h-[400px] flex items-center justify-center">
+             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
+           </div>
+        ) : posts.length === 0 ? (
           <div className="text-center py-24">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-orange-100 flex items-center justify-center">
               <svg className="w-10 h-10 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -344,7 +328,7 @@ export default function GalleryPage() {
         ) : (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 items-start">
-              {currentPosts.map((post) => (
+              {posts.map((post) => (
                 <GalleryPost key={post.id} post={post} />
               ))}
             </div>
@@ -424,4 +408,3 @@ export default function GalleryPage() {
     </div>
   );
 }
-
