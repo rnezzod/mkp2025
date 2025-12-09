@@ -38,23 +38,23 @@ export async function getGalleryPosts(
       offset,
       q,
     },
+    customRequestInit: {
+      cache: 'no-store',
+    },
   });
 
   return response;
 }
 
 // 全件取得してメモリ上でフィルタリングするための関数
-// キャッシュを活用するため、Next.jsのfetchキャッシュが効くようにカスタムfetchを使用したいところだが、
-// microCMS SDKは内部でfetchを使っているため、fetchオプションを渡せればよい。
-// SDKのcreateClientでcustomFetchを指定できるが、ここでは簡易的に実装する。
-export async function getAllGalleryPosts(ignoreCache: boolean = false): Promise<GalleryPost[]> {
+// 常にキャッシュ無効化 (no-store)
+export async function getAllGalleryPosts(): Promise<GalleryPost[]> {
   const limit = 100; // 1回あたりの最大取得件数
   let offset = 0;
   let allContents: GalleryPost[] = [];
   
-  const fetchOptions = ignoreCache 
-    ? { cache: 'no-store' as RequestCache } 
-    : { next: { revalidate: 3600 } };
+  // 常にキャッシュ無効化
+  const fetchOptions = { cache: 'no-store' as RequestCache };
 
   // 初回リクエストで総数を取得
   const firstResponse = await client.get<GalleryResponse>({
@@ -96,9 +96,6 @@ export async function getAllGalleryPosts(ignoreCache: boolean = false): Promise<
   responses.forEach(res => {
     allContents = [...allContents, ...res.contents];
   });
-
-  // 日付順（新しい順）にソートされているはずだが、念のため
-  // allContents.sort(...) 
 
   return allContents;
 }

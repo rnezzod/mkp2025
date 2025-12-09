@@ -9,10 +9,9 @@ export async function GET(request: NextRequest) {
     const charactersParam = searchParams.get('characters');
     const characters = charactersParam ? charactersParam.split(',').filter(Boolean) : [];
     const sort = searchParams.get('sort') || 'newest';
-    const refresh = searchParams.get('refresh') === 'true';
     
-    // 全件データを取得（キャッシュ有効、refresh=trueの場合は無効）
-    let allPosts = await getAllGalleryPosts(refresh);
+    // 全件データを取得（キャッシュなし）
+    let allPosts = await getAllGalleryPosts();
 
     // フィルタリング (AND検索)
     if (characters.length > 0) {
@@ -47,7 +46,7 @@ export async function GET(request: NextRequest) {
       totalCount: totalCount,
     }, {
       headers: {
-        // クライアント側でのキャッシュは無効化するが、サーバー側ではmicroCMSからのデータをキャッシュしている
+        // フロント・バックエンドともにキャッシュ無効化
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         'Pragma': 'no-cache',
         'Expires': '0',
