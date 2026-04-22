@@ -313,16 +313,14 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-[#2D1810] flex items-center justify-center z-50">
-        <div className="animate-neon">
-          <img
-            src="/logo.png"
-            alt="Loading..."
-            width={192}
-            height={192}
-            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain drop-shadow-[0_0_20px_rgba(255,154,51,0.5)]"
-          />
-        </div>
+      <div className="fixed inset-0 bg-[#FFF8F0] flex items-center justify-center z-50">
+        <img
+          src="/logo.png"
+          alt="Loading..."
+          width={192}
+          height={192}
+          className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+        />
       </div>
     );
   }
@@ -404,6 +402,7 @@ export default function Home() {
             >
               INFORMATION
             </button>
+            {/* GOODS セクション非表示中
             <button
               onClick={() => document.getElementById('goods')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
               className="diner-badge transition-all duration-200 hover:scale-105 whitespace-nowrap"
@@ -411,6 +410,7 @@ export default function Home() {
             >
               GOODS
             </button>
+            */}
           </div>
         </div>
 
@@ -519,7 +519,7 @@ export default function Home() {
           </button>
 
           {/* 動画カード */}
-          <div className="relative diner-card-teal overflow-hidden animate-jukebox transition-all duration-300">
+          <div className="relative diner-card-teal no-card-dots overflow-hidden animate-jukebox transition-all duration-300">
             <video
               ref={videoRef}
               key={movies[currentIndex].id}
@@ -737,7 +737,7 @@ export default function Home() {
           </button>
 
           {/* ストーリーカード */}
-          <div className="relative diner-card-red overflow-hidden animate-jukebox transition-all duration-300">
+          <div className="relative diner-card-red no-card-dots overflow-hidden animate-jukebox transition-all duration-300">
             <video
               ref={storyVideoRef}
               key={stories[storyIndex].id}
@@ -903,8 +903,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 展示情報 */}
-            <div className="diner-card-red p-8 transition-all duration-300 hover:translate-y-[-2px]">
+            {/* 展示情報 (非表示中) */}
+            <div className="hidden diner-card-red p-8 transition-all duration-300 hover:translate-y-[-2px]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FD4B5D 0%, #E53E3E 100%)' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -948,15 +948,15 @@ export default function Home() {
           </div>
         </div>
 
-        {/* GOODS見出し */}
-        <div id="goods" className="text-center mb-12 mt-24 scroll-mt-32">
+        {/* GOODS見出し (非表示中) */}
+        <div id="goods" className="hidden text-center mb-12 mt-24 scroll-mt-32">
           <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider neon-purple diner-title" style={{ color: '#9B59B6', fontFamily: 'Impact, Arial Black, sans-serif' }}>
             GOODS
           </h3>
         </div>
 
-        {/* GOODSコンテンツ */}
-        <div className="max-w-6xl mx-auto mb-16">
+        {/* GOODSコンテンツ (非表示中) */}
+        <div className="hidden max-w-6xl mx-auto mb-16">
           <div className="diner-card-purple p-4 transition-all duration-300 hover:translate-y-[-2px]">
             <div className="flex flex-col items-center gap-3">
               <div className="flex items-center gap-3">

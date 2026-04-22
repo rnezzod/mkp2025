@@ -49,17 +49,15 @@ export default function AboutPage() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-[#2D1810] flex items-center justify-center z-50">
-        <div className="animate-neon">
-          <Image
-            src="/white_logo.png"
-            alt="Loading..."
-            width={192}
-            height={192}
-            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain drop-shadow-[0_0_20px_rgba(255,154,51,0.5)]"
-            priority
-          />
-        </div>
+      <div className="fixed inset-0 bg-[#FFF8F0] flex items-center justify-center z-50">
+        <Image
+          src="/logo.png"
+          alt="Loading..."
+          width={192}
+          height={192}
+          className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+          priority
+        />
       </div>
     );
   }

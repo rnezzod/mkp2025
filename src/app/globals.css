@@ -353,6 +353,11 @@ html {
   border-radius: 9px 9px 0 0;
 }
 
+/* .diner-card 系の上部の点線を消す */
+.no-card-dots::before {
+  display: none !important;
+}
+
 /* ===== DINER BUTTON ===== */
 
 .diner-btn {

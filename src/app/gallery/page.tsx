@@ -120,14 +120,12 @@ export default function GalleryPage() {
 
   if (isInitialLoading) {
     return (
-      <div className="fixed inset-0 bg-[#2D1810] flex items-center justify-center z-50">
-        <div className="animate-neon">
-          <img
-            src="/white_logo.png"
-            alt="Loading..."
-            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain drop-shadow-[0_0_20px_rgba(255,154,51,0.5)]"
-          />
-        </div>
+      <div className="fixed inset-0 bg-[#FFF8F0] flex items-center justify-center z-50">
+        <img
+          src="/logo.png"
+          alt="Loading..."
+          className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+        />
       </div>
     );
   }

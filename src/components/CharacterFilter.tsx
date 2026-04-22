@@ -50,10 +50,10 @@ export default function CharacterFilter({
       {/* フィルターボタン */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="diner-btn flex items-center gap-2.5 px-5 py-2.5 rounded-lg bg-[#FFFBF5] transition-all duration-200"
+        className="diner-btn flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-[#FFFBF5] transition-all duration-200 whitespace-nowrap"
       >
         <svg
-          className="w-4.5 h-4.5 text-[#45C6B9]"
+          className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#45C6B9] flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -65,15 +65,15 @@ export default function CharacterFilter({
             d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
           />
         </svg>
-        <span className="font-bold text-sm text-[#2D1810]">
+        <span className="font-bold text-[11px] sm:text-sm text-[#2D1810] truncate max-w-[90px] sm:max-w-none">
           {selectedCharacters.length === 0
-            ? 'キャラクター'
+            ? 'キャラ'
             : selectedCharacters.length === 1
             ? selectedCharacters[0]
-            : `${selectedCharacters.length}件選択中`}
+            : `${selectedCharacters.length}件`}
         </span>
         {selectedCharacters.length > 0 && (
-          <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-bold rounded-full bg-[#FD4B5D] text-white border border-[#2D1810]">
+          <span className="flex items-center justify-center min-w-[18px] h-4 sm:h-5 px-1 text-[10px] sm:text-xs font-bold rounded-full bg-[#FD4B5D] text-white border border-[#2D1810]">
             {selectedCharacters.length}
           </span>
         )}

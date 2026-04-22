@@ -27,10 +27,10 @@ export default function SortSelector({
       {/* ソートボタン */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="diner-btn flex items-center gap-2.5 px-5 py-2.5 rounded-lg bg-[#FFFBF5] transition-all duration-200 w-full justify-center sm:w-auto"
+        className="diner-btn flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-[#FFFBF5] transition-all duration-200 whitespace-nowrap"
       >
         <svg
-          className="w-4.5 h-4.5 text-[#FF9A33]"
+          className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#FF9A33] flex-shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -42,7 +42,7 @@ export default function SortSelector({
             d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
           />
         </svg>
-        <span className="font-bold text-sm text-[#2D1810]">{currentLabel}</span>
+        <span className="font-bold text-[11px] sm:text-sm text-[#2D1810]">{currentLabel}</span>
       </button>
 
       {/* ドロップダウンメニュー */}
