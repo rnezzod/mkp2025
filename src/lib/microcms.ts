@@ -56,6 +56,9 @@ export async function getAllGalleryPosts(): Promise<GalleryPost[]> {
   // 常にキャッシュ無効化
   const fetchOptions = { cache: 'no-store' as RequestCache };
 
+  // deleted=true は除外 (dedupe 済みレコード)
+  const EXCLUDE_DELETED = 'deleted[not_equals]true';
+
   // 初回リクエストで総数を取得
   const firstResponse = await client.get<GalleryResponse>({
     endpoint: ENDPOINT,
@@ -64,6 +67,7 @@ export async function getAllGalleryPosts(): Promise<GalleryPost[]> {
       offset: 0,
       fields: 'id,created_at,tweet_url,user,image,characters', // 必要なフィールドのみ取得
       orders: '-created_at',
+      filters: EXCLUDE_DELETED,
     },
     customRequestInit: fetchOptions
   });
@@ -86,6 +90,7 @@ export async function getAllGalleryPosts(): Promise<GalleryPost[]> {
           offset,
           fields: 'id,created_at,tweet_url,user,image,characters',
           orders: '-created_at',
+          filters: EXCLUDE_DELETED,
         },
         customRequestInit: fetchOptions
       })

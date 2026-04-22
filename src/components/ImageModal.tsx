@@ -51,14 +51,14 @@ export default function ImageModal({
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#2D1810]/80 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
       style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
     >
       {/* 閉じるボタン */}
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 z-10 w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center transition-all duration-200 shadow-lg"
+        className="absolute top-4 right-4 z-10 w-12 h-12 rounded-lg bg-[#FD4B5D] hover:bg-[#FF3545] flex items-center justify-center transition-all duration-200 border-2 border-[#2D1810] shadow-[2px_2px_0px_#2D1810]"
         aria-label="閉じる"
       >
         <svg
@@ -89,12 +89,12 @@ export default function ImageModal({
           alt={alt}
           width={1200}
           height={1200}
-          className="w-auto h-auto max-w-full max-h-[95vh] object-contain rounded-lg shadow-2xl"
+          className="w-auto h-auto max-w-full max-h-[95vh] object-contain rounded-lg border-3 border-[#2D1810] shadow-[4px_4px_0px_#2D1810]"
           quality={100}
           priority
         />
         {/* ホバー時のヒント */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 px-4 py-2 bg-teal-500 text-white text-sm font-bold rounded-full shadow-lg pointer-events-none">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 px-4 py-2 bg-[#45C6B9] text-white text-sm font-bold rounded-lg border-2 border-[#2D1810] shadow-[2px_2px_0px_#2D1810] pointer-events-none">
           クリックでポストを見る
         </div>
       </div>
@@ -103,4 +103,3 @@ export default function ImageModal({
 
   return createPortal(modalContent, document.body);
 }
-

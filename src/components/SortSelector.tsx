@@ -27,10 +27,10 @@ export default function SortSelector({
       {/* ソートボタン */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white border-2 border-orange-300 hover:bg-orange-50 hover:border-orange-400 shadow-md hover:shadow-lg transition-all duration-200 w-full justify-center sm:w-auto"
+        className="diner-btn flex items-center gap-2.5 px-5 py-2.5 rounded-lg bg-[#FFFBF5] transition-all duration-200 w-full justify-center sm:w-auto"
       >
         <svg
-          className="w-4.5 h-4.5 text-orange-600"
+          className="w-4.5 h-4.5 text-[#FF9A33]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -42,7 +42,7 @@ export default function SortSelector({
             d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
           />
         </svg>
-        <span className="font-bold text-sm text-orange-900">{currentLabel}</span>
+        <span className="font-bold text-sm text-[#2D1810]">{currentLabel}</span>
       </button>
 
       {/* ドロップダウンメニュー */}
@@ -55,7 +55,7 @@ export default function SortSelector({
           />
 
           {/* メニュー */}
-          <div className="absolute top-full mt-3 right-0 w-full sm:w-52 bg-white border-2 border-orange-300 rounded-2xl shadow-2xl z-20 overflow-hidden">
+          <div className="absolute top-full mt-3 right-0 w-full sm:w-52 bg-[#FFFBF5] border-3 border-[#2D1810] rounded-xl shadow-[4px_4px_0px_#2D1810] z-20 overflow-hidden">
             {sortOptions.map((option, index) => (
               <button
                 key={option.value}
@@ -64,18 +64,18 @@ export default function SortSelector({
                   setIsOpen(false);
                 }}
                 className={`w-full text-left px-5 py-3.5 transition-all duration-150 ${
-                  index !== sortOptions.length - 1 ? 'border-b border-orange-200' : ''
+                  index !== sortOptions.length - 1 ? 'border-b-2 border-[#2D1810]/20' : ''
                 } ${
                   selectedSort === option.value
-                    ? 'bg-orange-100 text-orange-900 font-bold'
-                    : 'text-gray-800 font-medium hover:bg-orange-50'
+                    ? 'bg-[#FF9A33]/15 text-[#2D1810] font-bold'
+                    : 'text-[#2D1810] font-medium hover:bg-[#FF9A33]/10'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-sm">{option.label}</span>
                   {selectedSort === option.value && (
                     <svg
-                      className="w-4 h-4"
+                      className="w-4 h-4 text-[#FF9A33]"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                     >
@@ -95,4 +95,3 @@ export default function SortSelector({
     </div>
   );
 }
-

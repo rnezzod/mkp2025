@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+/* ===== AMERICAN DINER THEME ===== */
+
 @font-face {
   font-family: 'Impact';
   src: local('Impact');
@@ -36,8 +38,15 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFF8F0;
+  --foreground: #2D1810;
+  --diner-orange: #FF9A33;
+  --diner-teal: #45C6B9;
+  --diner-red: #FD4B5D;
+  --diner-purple: #9B59B6;
+  --diner-cream: #FFF8F0;
+  --diner-dark: #2D1810;
+  --diner-chrome: #E8E0D8;
 }
 
 /* Tailwind CSS variables */
@@ -51,8 +60,8 @@
 /* ダークモード無効化 */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #ffffff;
-    --foreground: #171717;
+    --background: #FFF8F0;
+    --foreground: #2D1810;
   }
 }
 
@@ -79,17 +88,346 @@ body.no-zoom {
   touch-action: pan-x pan-y;
 }
 
-/* カスタムシャドウ */
-.shadow-3xl {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
 /* スムーズスクロール */
 html {
   scroll-behavior: smooth;
 }
 
-/* アニメーション */
+/* ===== DINER PATTERNS ===== */
+
+/* チェッカーパターン背景 */
+.diner-checker {
+  background-image:
+    linear-gradient(45deg, rgba(255, 154, 51, 0.06) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 154, 51, 0.06) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 154, 51, 0.06) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 154, 51, 0.06) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+}
+
+/* ダイナーストライプ（庇風） */
+.diner-awning {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--diner-red) 0px,
+    var(--diner-red) 20px,
+    #fff 20px,
+    #fff 40px
+  );
+  height: 6px;
+}
+
+/* ダイナーストライプ（ティール） */
+.diner-awning-teal {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--diner-teal) 0px,
+    var(--diner-teal) 20px,
+    #fff 20px,
+    #fff 40px
+  );
+  height: 6px;
+}
+
+/* ===== NEON GLOW (白縁 → カラーグロー の2段で清潔に) ===== */
+
+.neon-orange {
+  /* 内側の白ストローク (くっきり) + 外側の色グロー (ふんわり) */
+  text-shadow:
+    0 0 1px #fff,
+    0 0 2px #fff,
+    0 0 6px rgba(255, 154, 51, 0.9),
+    0 0 16px rgba(255, 154, 51, 0.55),
+    0 0 32px rgba(255, 154, 51, 0.25);
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.7);
+}
+.neon-teal {
+  text-shadow:
+    0 0 1px #fff,
+    0 0 2px #fff,
+    0 0 6px rgba(69, 198, 185, 0.9),
+    0 0 16px rgba(69, 198, 185, 0.55),
+    0 0 32px rgba(69, 198, 185, 0.25);
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.7);
+}
+.neon-red {
+  text-shadow:
+    0 0 1px #fff,
+    0 0 2px #fff,
+    0 0 6px rgba(253, 75, 93, 0.9),
+    0 0 16px rgba(253, 75, 93, 0.55),
+    0 0 32px rgba(253, 75, 93, 0.25);
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.7);
+}
+.neon-purple {
+  text-shadow:
+    0 0 1px #fff,
+    0 0 2px #fff,
+    0 0 6px rgba(155, 89, 182, 0.9),
+    0 0 16px rgba(155, 89, 182, 0.55),
+    0 0 32px rgba(155, 89, 182, 0.25);
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.7);
+}
+
+/* ===== FILM GRAIN OVERLAY ===== */
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  background-size: 180px 180px;
+  animation: grainShift 1.4s steps(6) infinite;
+}
+
+@keyframes grainShift {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-5%, -3%); }
+  40% { transform: translate(4%, -6%); }
+  60% { transform: translate(-3%, 4%); }
+  80% { transform: translate(3%, 3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ===== SCROLL PROGRESS ===== */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  z-index: 10002;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--diner-orange) 0 12px,
+    var(--diner-dark) 12px 14px,
+    var(--diner-teal) 14px 26px,
+    var(--diner-dark) 26px 28px
+  );
+  width: var(--scroll-progress, 0%);
+  transition: width 0.08s linear;
+  box-shadow: 0 2px 0 var(--diner-dark);
+}
+
+/* ===== REVEAL ON SCROLL ===== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(.2,.7,.3,1), transform 0.7s cubic-bezier(.2,.7,.3,1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== TILT CARD ===== */
+
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.18s ease;
+  will-change: transform;
+}
+
+.tilt-card:hover {
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(6px);
+}
+
+/* ===== DINER CARD STYLES ===== */
+
+/* メニューボード風カード */
+.diner-card {
+  background: #FFFBF5;
+  border: 3px solid var(--diner-dark);
+  border-radius: 12px;
+  box-shadow:
+    4px 4px 0px var(--diner-dark),
+    inset 0 0 0 2px rgba(255, 154, 51, 0.15);
+  position: relative;
+}
+
+.diner-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--diner-orange) 0px,
+    var(--diner-orange) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  border-radius: 9px 9px 0 0;
+}
+
+/* ティールカード */
+.diner-card-teal {
+  background: #FFFBF5;
+  border: 3px solid var(--diner-dark);
+  border-radius: 12px;
+  box-shadow:
+    4px 4px 0px var(--diner-dark),
+    inset 0 0 0 2px rgba(69, 198, 185, 0.15);
+  position: relative;
+}
+
+.diner-card-teal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--diner-teal) 0px,
+    var(--diner-teal) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  border-radius: 9px 9px 0 0;
+}
+
+/* レッドカード */
+.diner-card-red {
+  background: #FFFBF5;
+  border: 3px solid var(--diner-dark);
+  border-radius: 12px;
+  box-shadow:
+    4px 4px 0px var(--diner-dark),
+    inset 0 0 0 2px rgba(253, 75, 93, 0.15);
+  position: relative;
+}
+
+.diner-card-red::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--diner-red) 0px,
+    var(--diner-red) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  border-radius: 9px 9px 0 0;
+}
+
+/* パープルカード */
+.diner-card-purple {
+  background: #FFFBF5;
+  border: 3px solid var(--diner-dark);
+  border-radius: 12px;
+  box-shadow:
+    4px 4px 0px var(--diner-dark),
+    inset 0 0 0 2px rgba(155, 89, 182, 0.15);
+  position: relative;
+}
+
+.diner-card-purple::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--diner-purple) 0px,
+    var(--diner-purple) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  border-radius: 9px 9px 0 0;
+}
+
+/* ===== DINER BUTTON ===== */
+
+.diner-btn {
+  border: 2px solid var(--diner-dark);
+  box-shadow: 3px 3px 0px var(--diner-dark);
+  transition: all 0.15s ease;
+  font-weight: 800;
+}
+
+.diner-btn:hover {
+  box-shadow: 1px 1px 0px var(--diner-dark);
+  transform: translate(2px, 2px);
+}
+
+.diner-btn:active {
+  box-shadow: 0px 0px 0px var(--diner-dark);
+  transform: translate(3px, 3px);
+}
+
+/* ===== DINER HEADER ===== */
+
+.diner-header {
+  background: #FFFBF5;
+  border-bottom: 3px solid var(--diner-dark);
+  box-shadow: 0 4px 0px var(--diner-dark);
+}
+
+/* ===== DINER DIVIDER ===== */
+
+.diner-divider {
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--diner-orange) 0px,
+    var(--diner-orange) 12px,
+    transparent 12px,
+    transparent 18px,
+    var(--diner-teal) 18px,
+    var(--diner-teal) 30px,
+    transparent 30px,
+    transparent 36px
+  );
+}
+
+/* ===== DINER BADGE ===== */
+
+.diner-badge {
+  display: inline-block;
+  padding: 2px 12px;
+  border: 2px solid var(--diner-dark);
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  box-shadow: 2px 2px 0px var(--diner-dark);
+}
+
+/* ===== RETRO SECTION TITLE ===== */
+
+.diner-title {
+  position: relative;
+  display: inline-block;
+}
+
+.diner-title::after {
+  content: '';
+  display: block;
+  width: 60%;
+  height: 4px;
+  margin: 8px auto 0;
+  background: var(--diner-orange);
+  border-radius: 2px;
+}
+
+/* ===== ANIMATIONS ===== */
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);
@@ -101,4 +439,70 @@ html {
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
+}
+
+/* animate-neon: 不使用 */
+.animate-neon {}
+
+/* animate-jukebox: 不使用 */
+.animate-jukebox {}
+
+/* ===== DINER FOOTER ===== */
+
+.diner-footer {
+  background: #2D1810;
+  color: #FFF8F0;
+  border-top: 6px solid var(--diner-orange);
+  position: relative;
+}
+
+.diner-footer::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--diner-red);
+}
+
+/* カスタムシャドウ */
+.shadow-3xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== DINER BACKGROUND ===== */
+
+.diner-bg {
+  background-color: var(--diner-cream);
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(255, 154, 51, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(69, 198, 185, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(253, 75, 93, 0.04) 0%, transparent 50%);
+}
+
+/* ===== STARBURST DECORATION ===== */
+
+.diner-starburst {
+  position: relative;
+}
+
+.diner-starburst::before {
+  content: '★';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  color: var(--diner-orange);
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+.diner-starburst::after {
+  content: '★';
+  position: absolute;
+  bottom: -8px;
+  right: -8px;
+  color: var(--diner-teal);
+  font-size: 1rem;
+  opacity: 0.6;
 }

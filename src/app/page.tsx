@@ -20,6 +20,9 @@ type StoryData = {
   url: string;
 };
 
+function proxyVideoUrl(url: string): string {
+  return `/api/video?url=${encodeURIComponent(url)}`;
+}
 
 export default function Home() {
   const movies = Object.entries(movieData.characters).map(([key, value]) => ({
@@ -184,45 +187,31 @@ export default function Home() {
 
   const storyProgress = storyDuration > 0 ? (storyCurrentTime / storyDuration) * 100 : 0;
 
-  // 動画切り替え時に状態をリセットし、メタデータを再取得
+  // 動画切り替え時に状態をリセット
   useEffect(() => {
     setCurrentTime(0);
     setDuration(0);
     const video = videoRef.current;
     if (video) {
-      if (video.duration) {
-        setDuration(video.duration);
-      }
-      // isPlayingがtrueの場合のみ再生を試みる
-      if (isPlaying) {
-        video.play().catch(() => {
-          setIsPlaying(false);
-        });
-      } else {
-        video.pause();
-      }
+      video.load();
+      video.play().catch(() => {
+        // autoplay policy で再生できない場合は静かに失敗
+      });
+      setIsPlaying(true);
     }
-  }, [currentIndex, isPlaying]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex]);
 
-  // ストーリー切り替え時に状態をリセットし、メタデータを再取得
+  // ストーリー切り替え時に状態をリセット
   useEffect(() => {
     setStoryCurrentTime(0);
     setStoryDuration(0);
     const video = storyVideoRef.current;
     if (video) {
-      if (video.duration) {
-        setStoryDuration(video.duration);
-      }
-      // storyPlayingがtrueの場合のみ再生を試みる
-      if (storyPlaying) {
-        video.play().catch(() => {
-          setStoryPlaying(false);
-        });
-      } else {
-        video.pause();
-      }
+      video.load();
     }
-  }, [storyIndex, storyPlaying]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storyIndex]);
 
   // 初期ローディング（最低0.3秒間表示）
   useEffect(() => {
@@ -324,14 +313,14 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
-        <div className="animate-pulse">
+      <div className="fixed inset-0 bg-[#2D1810] flex items-center justify-center z-50">
+        <div className="animate-neon">
           <img
             src="/logo.png"
             alt="Loading..."
             width={192}
             height={192}
-            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain drop-shadow-[0_0_20px_rgba(255,154,51,0.5)]"
           />
         </div>
       </div>
@@ -339,26 +328,21 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF5ED] via-[#FFFAF7] to-[#FFF0F0] relative">
-      {/* 背景装飾 */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-[#FF9A33]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#45C6B9]/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-[#FD4B5D]/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-      </div>
+    <div className="min-h-screen diner-bg diner-checker relative">
       {/* ヘッダー */}
-      <header 
-        className={`fixed top-0 left-0 right-0 z-50 border-b-2 border-[#FF9A33]/30 bg-white/95 backdrop-blur-xl shadow-md transition-transform duration-300 ${
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 diner-header transition-transform duration-300 ${
           headerVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
+        <div className="diner-awning"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer"
-              style={{ 
-                color: '#FF9A33', 
+              className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer neon-orange animate-neon"
+              style={{
+                color: '#FF9A33',
                 fontFamily: 'Impact, sans-serif',
                 fontWeight: 'bold',
                 letterSpacing: '0.01em'
@@ -369,15 +353,13 @@ export default function Home() {
             <div className="flex gap-2">
               <Link
                 href="/about"
-                className="px-3 py-2 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #FF9A33 0%, #FF8820 100%)' }}
+                className="diner-btn px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#FF9A33] transition-all duration-200"
               >
                 About
               </Link>
               <Link
                 href="/gallery"
-                className="px-3 py-2 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+                className="diner-btn px-4 py-2 rounded-lg text-xs font-bold text-white bg-[#45C6B9] transition-all duration-200"
               >
                 Gallery
               </Link>
@@ -391,52 +373,41 @@ export default function Home() {
         {/* タイトル */}
         <div className="text-center mb-16">
           <h2 className="text-6xl sm:text-7xl md:text-8xl font-black mb-8 leading-none">
-            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#FF9A33', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>TASTY</span><br/>
-            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#45C6B9', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>VIVID</span><br/>
-            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#FD4B5D', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>TUNE!</span>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 neon-orange animate-neon" style={{ color: '#FF9A33', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>TASTY</span><br/>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 neon-teal" style={{ color: '#45C6B9', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>VIVID</span><br/>
+            <span className="inline-block hover:scale-110 transition-transform duration-300 neon-red" style={{ color: '#FD4B5D', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>TUNE!</span>
           </h2>
+          <div className="diner-divider max-w-xs mx-auto mt-4"></div>
         </div>
 
         {/* タブナビゲーション */}
         <div className="flex justify-center mb-16">
-          <div className="flex gap-3 sm:gap-6 md:gap-12 border-b-2 border-gray-200/50 justify-center backdrop-blur-sm bg-white/30 rounded-t-xl px-6 pb-0">
+          <div className="diner-card flex gap-2 sm:gap-4 md:gap-8 justify-center px-4 sm:px-6 py-3 overflow-x-auto">
             <button
               onClick={() => document.getElementById('characters')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-4 pt-4 text-xs sm:text-sm md:text-lg font-bold transition-all duration-300 border-b-4 hover:scale-105 hover:pb-3"
-              style={{ 
-                color: '#FF9A33',
-                borderBottom: '4px solid #FF9A33'
-              }}
+              className="diner-badge transition-all duration-200 hover:scale-105 whitespace-nowrap"
+              style={{ color: '#FF9A33', borderColor: '#FF9A33' }}
             >
               CHARACTERS
             </button>
             <button
               onClick={() => document.getElementById('stories')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-4 pt-4 text-xs sm:text-sm md:text-lg font-bold transition-all duration-300 border-b-4 hover:scale-105 hover:pb-3"
-              style={{ 
-                color: '#FD4B5D',
-                borderBottom: '4px solid #FD4B5D'
-              }}
+              className="diner-badge transition-all duration-200 hover:scale-105 whitespace-nowrap"
+              style={{ color: '#FD4B5D', borderColor: '#FD4B5D' }}
             >
               STORY
             </button>
             <button
               onClick={() => document.getElementById('information')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-4 pt-4 text-xs sm:text-sm md:text-lg font-bold transition-all duration-300 border-b-4 hover:scale-105 hover:pb-3"
-              style={{ 
-                color: '#45C6B9',
-                borderBottom: '4px solid #45C6B9'
-              }}
+              className="diner-badge transition-all duration-200 hover:scale-105 whitespace-nowrap"
+              style={{ color: '#45C6B9', borderColor: '#45C6B9' }}
             >
               INFORMATION
             </button>
             <button
               onClick={() => document.getElementById('goods')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="pb-4 pt-4 text-xs sm:text-sm md:text-lg font-bold transition-all duration-300 border-b-4 hover:scale-105 hover:pb-3"
-              style={{ 
-                color: '#9B59B6',
-                borderBottom: '4px solid #9B59B6'
-              }}
+              className="diner-badge transition-all duration-200 hover:scale-105 whitespace-nowrap"
+              style={{ color: '#9B59B6', borderColor: '#9B59B6' }}
             >
               GOODS
             </button>
@@ -445,7 +416,7 @@ export default function Home() {
 
         {/* キャラクター見出し */}
         <div id="characters" className="text-center mb-12 scroll-mt-32">
-          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#FF9A33' }}>
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider neon-orange diner-title" style={{ color: '#FF9A33', fontFamily: 'Impact, Arial Black, sans-serif' }}>
             CHARACTERS
           </h3>
         </div>
@@ -548,10 +519,11 @@ export default function Home() {
           </button>
 
           {/* 動画カード */}
-          <div className="relative bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl border-2 border-[#45C6B9]/30 hover:shadow-3xl hover:border-[#45C6B9]/50 transition-all duration-300">
+          <div className="relative diner-card-teal overflow-hidden animate-jukebox transition-all duration-300">
             <video
               ref={videoRef}
               key={movies[currentIndex].id}
+              src={proxyVideoUrl(movies[currentIndex].url)}
               autoPlay
               muted={isMuted}
               playsInline
@@ -559,15 +531,9 @@ export default function Home() {
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleLoadedMetadata}
               onCanPlay={handleLoadedMetadata}
-              onLoadStart={handleLoadedMetadata}
               className="w-full aspect-video bg-black"
-              preload="metadata"
-            >
-              {movies[currentIndex].url && (
-                <source src={movies[currentIndex].url} type="video/mp4" />
-              )}
-              お使いのブラウザは動画タグをサポートしていません。
-            </video>
+              preload="auto"
+            />
             
             {/* カスタムシークバー */}
             <div 
@@ -668,7 +634,7 @@ export default function Home() {
 
         {/* ストーリー見出し */}
         <div id="stories" className="text-center mb-12 mt-24 scroll-mt-32">
-          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#FD4B5D' }}>
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider neon-red diner-title" style={{ color: '#FD4B5D', fontFamily: 'Impact, Arial Black, sans-serif' }}>
             STORY
           </h3>
         </div>
@@ -771,25 +737,20 @@ export default function Home() {
           </button>
 
           {/* ストーリーカード */}
-          <div className="relative bg-white/90 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl border-2 border-[#FD4B5D]/30 hover:shadow-3xl hover:border-[#FD4B5D]/50 transition-all duration-300">
+          <div className="relative diner-card-red overflow-hidden animate-jukebox transition-all duration-300">
             <video
               ref={storyVideoRef}
               key={stories[storyIndex].id}
+              src={proxyVideoUrl(stories[storyIndex].url)}
               muted={storyMuted}
               playsInline
               onEnded={goToStoryNext}
               onTimeUpdate={handleStoryTimeUpdate}
               onLoadedMetadata={handleStoryLoadedMetadata}
               onCanPlay={handleStoryLoadedMetadata}
-              onLoadStart={handleStoryLoadedMetadata}
               className="w-full aspect-video bg-black"
-              preload="metadata"
-            >
-              {stories[storyIndex].url && (
-                <source src={stories[storyIndex].url} type="video/mp4" />
-              )}
-              お使いのブラウザは動画タグをサポートしていません。
-            </video>
+              preload="auto"
+            />
             
             {/* カスタムシークバー */}
             <div 
@@ -864,7 +825,7 @@ export default function Home() {
 
         {/* INFORMATION見出し */}
         <div id="information" className="text-center mb-12 mt-24 scroll-mt-32">
-          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#45C6B9' }}>
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider neon-teal diner-title" style={{ color: '#45C6B9', fontFamily: 'Impact, Arial Black, sans-serif' }}>
             INFORMATION
           </h3>
         </div>
@@ -873,7 +834,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* 公演情報 */}
-            <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#45C6B9]/30 hover:border-[#45C6B9]/50 transition-all duration-300">
+            <div className="diner-card-teal p-8 transition-all duration-300 hover:translate-y-[-2px]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -943,7 +904,7 @@ export default function Home() {
             </div>
 
             {/* 展示情報 */}
-            <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#FD4B5D]/30 hover:border-[#FD4B5D]/50 transition-all duration-300">
+            <div className="diner-card-red p-8 transition-all duration-300 hover:translate-y-[-2px]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FD4B5D 0%, #E53E3E 100%)' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -989,22 +950,22 @@ export default function Home() {
 
         {/* GOODS見出し */}
         <div id="goods" className="text-center mb-12 mt-24 scroll-mt-32">
-          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider" style={{ color: '#9B59B6' }}>
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-wider neon-purple diner-title" style={{ color: '#9B59B6', fontFamily: 'Impact, Arial Black, sans-serif' }}>
             GOODS
           </h3>
         </div>
 
         {/* GOODSコンテンツ */}
         <div className="max-w-6xl mx-auto mb-16">
-          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-4 shadow-2xl border-2 border-[#9B59B6]/30 hover:border-[#9B59B6]/50 transition-all duration-300">
+          <div className="diner-card-purple p-4 transition-all duration-300 hover:translate-y-[-2px]">
             <div className="flex flex-col items-center gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center border-2 border-[#2D1810]" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                   </svg>
                 </div>
-                <h4 className="text-2xl font-black" style={{ color: '#9B59B6' }}>お品書き</h4>
+                <h4 className="text-2xl font-black neon-purple" style={{ color: '#9B59B6' }}>お品書き</h4>
               </div>
               
               <div id="spoiler-warning" className="flex flex-col items-center gap-4 py-8">
@@ -1050,20 +1011,19 @@ export default function Home() {
       </main>
 
       {/* フッター */}
-      <footer className="py-12 border-t-2 border-[#FF9A33]/30 bg-white/50 backdrop-blur-sm">
+      <footer className="diner-footer py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* SNSリンクセクション */}
           <div className="mb-8">
-            <h4 className="text-center text-lg font-bold mb-6" style={{ color: '#FF9A33' }}>
+            <h4 className="text-center text-lg font-bold mb-6 neon-orange" style={{ color: '#FF9A33' }}>
               Follow Us
             </h4>
-            <div className="flex justify-center gap-2">
-              {/* X リンク */}
+            <div className="flex justify-center gap-3">
               <a
                 href={snsData.X}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-1 px-3 py-2 rounded-full bg-black text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                className="diner-btn flex items-center gap-1 px-4 py-2 rounded-lg bg-white text-[#2D1810] text-xs font-bold transition-all duration-200"
                 aria-label="X でフォロー"
               >
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
@@ -1071,13 +1031,11 @@ export default function Home() {
                 </svg>
                 <span>X</span>
               </a>
-
-              {/* Instagram リンク */}
               <a
                 href={snsData.Instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-1 px-3 py-2 rounded-full text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                className="diner-btn flex items-center gap-1 px-4 py-2 rounded-lg text-white text-xs font-bold transition-all duration-200"
                 style={{ background: 'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)' }}
                 aria-label="Instagram でフォロー"
               >
@@ -1086,13 +1044,11 @@ export default function Home() {
                 </svg>
                 <span>Instagram</span>
               </a>
-
-              {/* YouTube リンク */}
               <a
                 href={snsData.YouTube}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-1 px-3 py-2 rounded-full bg-red-600 text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                className="diner-btn flex items-center gap-1 px-4 py-2 rounded-lg bg-red-600 text-white text-xs font-bold transition-all duration-200"
                 aria-label="YouTube でフォロー"
               >
                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
@@ -1102,11 +1058,10 @@ export default function Home() {
               </a>
             </div>
           </div>
-
-          {/* コピーライト */}
+          <div className="diner-divider mb-6"></div>
           <div className="text-center">
-            <p className="text-sm font-medium" style={{ color: '#FF9A33' }}>
-              © 2025 Magic Kingdom Project. All Rights Reserved.
+            <p className="text-sm font-medium text-[#FF9A33]">
+              &copy; 2025 Magic Kingdom Project. All Rights Reserved.
             </p>
           </div>
         </div>

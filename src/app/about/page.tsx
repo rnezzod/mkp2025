@@ -26,7 +26,7 @@ export default function AboutPage() {
       const currentScrollY = window.scrollY;
       const windowHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
-      
+
       // 一番下に到達したら表示
       if (currentScrollY + windowHeight >= documentHeight - 10) {
         setHeaderVisible(true);
@@ -39,7 +39,7 @@ export default function AboutPage() {
       else if (currentScrollY < lastScrollY) {
         setHeaderVisible(true);
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
@@ -49,14 +49,14 @@ export default function AboutPage() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-        <div className="animate-pulse">
+      <div className="fixed inset-0 bg-[#2D1810] flex items-center justify-center z-50">
+        <div className="animate-neon">
           <Image
             src="/white_logo.png"
             alt="Loading..."
             width={192}
             height={192}
-            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain"
+            className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 object-contain drop-shadow-[0_0_20px_rgba(255,154,51,0.5)]"
             priority
           />
         </div>
@@ -65,27 +65,21 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF5ED] via-[#FFFAF7] to-[#FFF0F0] relative">
-      {/* 背景装飾 */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-[#FF9A33]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#45C6B9]/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-[#FD4B5D]/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-      </div>
-
+    <div className="min-h-screen diner-bg diner-checker relative">
       {/* ヘッダー */}
-      <header 
-        className={`fixed top-0 left-0 right-0 z-50 border-b-2 border-[#FF9A33]/30 bg-white/95 backdrop-blur-xl shadow-md transition-transform duration-300 ${
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 diner-header transition-transform duration-300 ${
           headerVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
+        <div className="diner-awning"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link
               href="/"
-              className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer"
-              style={{ 
-                color: '#FF9A33', 
+              className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight hover:opacity-80 transition-opacity duration-200 cursor-pointer neon-orange animate-neon"
+              style={{
+                color: '#FF9A33',
                 fontFamily: 'Impact, sans-serif',
                 fontWeight: 'bold',
                 letterSpacing: '0.01em'
@@ -95,10 +89,9 @@ export default function AboutPage() {
             </Link>
             <Link
               href="/"
-              className="px-6 py-2.5 rounded-full text-xs font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+              className="diner-btn px-5 py-2.5 rounded-lg text-xs font-bold text-white bg-[#45C6B9] transition-all duration-200"
             >
-              ← ホーム
+              &larr; ホーム
             </Link>
           </div>
         </div>
@@ -108,20 +101,21 @@ export default function AboutPage() {
       <main className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pt-32">
         {/* タイトル */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-8 leading-none">
-            <span className="inline-block hover:scale-110 transition-transform duration-300" style={{ color: '#FF9A33', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>We Are MKP</span><br/>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black mb-4 leading-none">
+            <span className="inline-block hover:scale-110 transition-transform duration-300 neon-orange" style={{ color: '#FF9A33', fontFamily: 'Arial Black, Impact, sans-serif', fontWeight: 'bold' }}>We Are MKP</span>
           </h1>
+          <div className="diner-divider max-w-xs mx-auto mt-4"></div>
         </div>
 
         {/* MKPについての説明 */}
         <div className="max-w-4xl mx-auto mb-16">
-          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#FF9A33]/30 hover:border-[#FF9A33]/50 transition-all duration-300">
+          <div className="diner-card p-8 transition-all duration-300 hover:translate-y-[-2px]">
             <div className="mb-6">
-              <h2 className="text-2xl font-black" style={{ color: '#FF9A33' }}>{mkpData.abstruct.title}</h2>
+              <h2 className="text-2xl font-black neon-orange" style={{ color: '#FF9A33' }}>{mkpData.abstruct.title}</h2>
             </div>
-            
+
             <div className="space-y-6 text-lg leading-relaxed">
-              <p className="text-gray-700">
+              <p className="text-[#2D1810]/80">
                 {mkpData.abstruct.description}
               </p>
             </div>
@@ -130,19 +124,18 @@ export default function AboutPage() {
 
         {/* 各班の紹介 */}
         <div className="max-w-4xl mx-auto mb-16">
-          <h3 className="text-3xl sm:text-4xl font-black text-center mb-12" style={{ color: '#45C6B9' }}>
+          <h3 className="text-3xl sm:text-4xl font-black text-center mb-12 neon-teal diner-title" style={{ color: '#45C6B9', fontFamily: 'Impact, Arial Black, sans-serif' }}>
             各班の紹介
           </h3>
-          
-          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#45C6B9]/30 hover:border-[#45C6B9]/50 transition-all duration-300">
+
+          <div className="diner-card-teal p-8 transition-all duration-300 hover:translate-y-[-2px]">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {/* ダンサー班 */}
               <a
                 href={mkpData.departments.dancer.post_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+                className="diner-btn flex items-center justify-center px-4 py-3 rounded-lg text-sm font-bold text-white bg-[#45C6B9] transition-all duration-200"
               >
                 <span className="text-center">{mkpData.departments.dancer.name}</span>
               </a>
@@ -152,8 +145,7 @@ export default function AboutPage() {
                 href={mkpData.departments.costume.post_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+                className="diner-btn flex items-center justify-center px-4 py-3 rounded-lg text-sm font-bold text-white bg-[#45C6B9] transition-all duration-200"
               >
                 <span className="text-center">{mkpData.departments.costume.name}</span>
               </a>
@@ -163,8 +155,7 @@ export default function AboutPage() {
                 href={mkpData.departments.makeup.post_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+                className="diner-btn flex items-center justify-center px-4 py-3 rounded-lg text-sm font-bold text-white bg-[#45C6B9] transition-all duration-200"
               >
                 <span className="text-center">{mkpData.departments.makeup.name}</span>
               </a>
@@ -174,8 +165,7 @@ export default function AboutPage() {
                 href={mkpData.departments.float.post_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+                className="diner-btn flex items-center justify-center px-4 py-3 rounded-lg text-sm font-bold text-white bg-[#45C6B9] transition-all duration-200"
               >
                 <span className="text-center">{mkpData.departments.float.name}</span>
               </a>
@@ -185,8 +175,7 @@ export default function AboutPage() {
                 href={mkpData.departments.promotion.post_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+                className="diner-btn flex items-center justify-center px-4 py-3 rounded-lg text-sm font-bold text-white bg-[#45C6B9] transition-all duration-200"
               >
                 <span className="text-center">{mkpData.departments.promotion.name}</span>
               </a>
@@ -196,8 +185,7 @@ export default function AboutPage() {
                 href={mkpData.departments.sound.post_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+                className="diner-btn flex items-center justify-center px-4 py-3 rounded-lg text-sm font-bold text-white bg-[#45C6B9] transition-all duration-200"
               >
                 <span className="text-center">{mkpData.departments.sound.name}</span>
               </a>
@@ -207,8 +195,7 @@ export default function AboutPage() {
                 href={mkpData.departments.display.post_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
-                style={{ background: 'linear-gradient(135deg, #45C6B9 0%, #3AB5A8 100%)' }}
+                className="diner-btn flex items-center justify-center px-4 py-3 rounded-lg text-sm font-bold text-white bg-[#45C6B9] transition-all duration-200"
               >
                 <span className="text-center">{mkpData.departments.display.name}</span>
               </a>
@@ -218,26 +205,26 @@ export default function AboutPage() {
 
         {/* 各種SNS */}
         <div className="max-w-4xl mx-auto mb-16">
-          <div className="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-2xl border-2 border-[#9B59B6]/30 hover:border-[#9B59B6]/50 transition-all duration-300">
+          <div className="diner-card-purple p-8 transition-all duration-300 hover:translate-y-[-2px]">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
+              <div className="w-12 h-12 rounded-full flex items-center justify-center border-2 border-[#2D1810]" style={{ background: 'linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%)' }}>
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 011 1v1a1 1 0 01-1 1h-1v12a2 2 0 01-2 2H6a2 2 0 01-2-2V7H3a1 1 0 01-1-1V5a1 1 0 011-1h4zM9 4h6V3H9v1z" />
                 </svg>
               </div>
-              <h3 className="text-2xl font-black" style={{ color: '#9B59B6' }}>各種SNS</h3>
+              <h3 className="text-2xl font-black neon-purple" style={{ color: '#9B59B6' }}>各種SNS</h3>
             </div>
-            
+
             <div className="text-left">
-              <p className="text-gray-700 mb-6">
+              <p className="text-[#2D1810]/80 mb-6">
                 Magic Kingdom Projectの最新情報や活動報告は、各種SNSアカウントでお知らせしています。
               </p>
-              <div className="flex justify-center gap-2">
+              <div className="flex justify-center gap-3">
                 <a
                   href={snsData.X}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 px-3 py-2 rounded-full bg-black text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="diner-btn flex items-center gap-1 px-4 py-2 rounded-lg bg-[#2D1810] text-white text-xs font-bold transition-all duration-200"
                 >
                     X
                 </a>
@@ -245,7 +232,7 @@ export default function AboutPage() {
                   href={snsData.Instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-2 rounded-full text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="diner-btn px-4 py-2 rounded-lg text-white text-xs font-bold transition-all duration-200"
                   style={{ background: 'linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)' }}
                 >
                   Instagram
@@ -254,7 +241,7 @@ export default function AboutPage() {
                   href={snsData.YouTube}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-2 rounded-full bg-red-600 text-white text-xs font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="diner-btn px-4 py-2 rounded-lg bg-red-600 text-white text-xs font-bold transition-all duration-200"
                 >
                   YouTube
                 </a>
@@ -265,11 +252,11 @@ export default function AboutPage() {
       </main>
 
       {/* フッター */}
-      <footer className="py-12 border-t-2 border-[#FF9A33]/30 bg-white/50 backdrop-blur-sm">
+      <footer className="diner-footer py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-sm font-medium" style={{ color: '#FF9A33' }}>
-              © 2025 Magic Kingdom Project. All Rights Reserved.
+            <p className="text-sm font-medium text-[#FF9A33]">
+              &copy; 2025 Magic Kingdom Project. All Rights Reserved.
             </p>
           </div>
         </div>

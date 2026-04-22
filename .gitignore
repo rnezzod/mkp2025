@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Python / scraper (フロントに不要)
+.venv/
+/scripts/
+api-gallery2024-*.json
+api-gallery2025-*.json
