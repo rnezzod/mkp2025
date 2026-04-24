@@ -45,3 +45,7 @@ next-env.d.ts
 /scripts/
 api-gallery2024-*.json
 api-gallery2025-*.json
+
+# design mock pages (local only)
+/src/app/mock/
+/src/app/mock-gallery/
