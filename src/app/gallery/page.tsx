@@ -12,6 +12,29 @@ import { CHARACTER_LIST } from '@/constants/characters';
 
 const POSTS_PER_PAGE = 18;
 
+function useColumnCount() {
+  const [cols, setCols] = useState(1);
+  useEffect(() => {
+    const lg = window.matchMedia('(min-width: 1024px)');
+    const sm = window.matchMedia('(min-width: 640px)');
+    const update = () => setCols(lg.matches ? 3 : sm.matches ? 2 : 1);
+    update();
+    lg.addEventListener('change', update);
+    sm.addEventListener('change', update);
+    return () => {
+      lg.removeEventListener('change', update);
+      sm.removeEventListener('change', update);
+    };
+  }, []);
+  return cols;
+}
+
+function distributeIntoColumns<T>(items: T[], columnCount: number): T[][] {
+  const cols: T[][] = Array.from({ length: columnCount }, () => []);
+  items.forEach((item, i) => cols[i % columnCount].push(item));
+  return cols;
+}
+
 export default function GalleryPage() {
   const [posts, setPosts] = useState<GalleryPostType[]>([]);
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
@@ -25,6 +48,7 @@ export default function GalleryPage() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [showSpoilerWarning, setShowSpoilerWarning] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const columnCount = useColumnCount();
 
   // 初期ローディング
   useEffect(() => {
@@ -317,9 +341,13 @@ export default function GalleryPage() {
           </div>
         ) : (
           <>
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-5 [&>*]:mb-4 sm:[&>*]:mb-5 [&>*]:break-inside-avoid">
-              {posts.map((post) => (
-                <GalleryPost key={post.id} post={post} />
+            <div className="flex gap-4 sm:gap-5 items-start">
+              {distributeIntoColumns(posts, columnCount).map((col, idx) => (
+                <div key={idx} className="flex-1 min-w-0 flex flex-col gap-4 sm:gap-5">
+                  {col.map((post) => (
+                    <GalleryPost key={post.id} post={post} />
+                  ))}
+                </div>
               ))}
             </div>
 
